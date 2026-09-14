@@ -93,11 +93,13 @@ const home: PageSpec = {
       </div>
     </section>
     <section>
-      <div class="section-intro"><div><span class="eyebrow">Three decisions</span><h2>Start with the answer you need.</h2></div><p>Each tool shares the same rules. No conflicting calculators.</p></div>
+      <div class="section-intro"><div><span class="eyebrow">Five decisions</span><h2>Start with the answer you need.</h2></div><p>Each tool shares the same rules. No conflicting calculators.</p></div>
       ${pageCards([
         { href: "/tools/network-compatibility-planner/", eyebrow: "Tool 1", title: "Will my setup work together?", text: "Check the full path from provider to client and get one prioritized next action.", action: "Check my network" },
         { href: "/tools/internet-plan-bottleneck-finder/", eyebrow: "Tool 2", title: "What is slowing this device down?", text: "Compare every entered port and link rate to the internet tier without fake Wi-Fi precision.", action: "Find the limiter" },
         { href: "/tools/isp-equipment-checker/", eyebrow: "Tool 3", title: "Can I use my own equipment?", text: "Check source-backed provider rules and see when an exact model still needs manual approval.", action: "Check ISP rules" },
+        { href: "/tools/ethernet-link-checker/", eyebrow: "Tool 4", title: "Will this cable carry the speed?", text: "Check one run against its ports and adapters, and tell a real ceiling from a negotiation fault.", action: "Check a link" },
+        { href: "/tools/router-topology-planner/", eyebrow: "Tool 5", title: "Bridge mode, AP mode, or neither?", text: "Pick the arrangement your provider supports and see which router features it costs you.", action: "Plan topology" },
       ])}
     </section>
     <section>
@@ -118,16 +120,18 @@ const home: PageSpec = {
 const toolsIndex: PageSpec = {
   path: "/tools/",
   title: "Home Network Tools — HomeNet Fit",
-  description: "Use three connected tools to check home-network compatibility, internet-plan bottlenecks, and ISP equipment rules.",
+  description: "Use five connected tools to check home-network compatibility, internet-plan bottlenecks, ISP equipment rules, Ethernet link rates, and router topology.",
   h1: "Home-network tools",
-  lede: "Three tools share one decision model: provider rules first, verified path capacity second, cheapest useful action last.",
+  lede: "Five tools share one decision model: provider rules first, verified path capacity second, cheapest useful action last.",
   crumbs: homeCrumb,
   updated,
   body: pageCards([
     { href: "/tools/network-compatibility-planner/", eyebrow: "Tool 1", title: "Whole-Network Compatibility Planner", text: "Compose ISP requirements and link ceilings into one network-path verdict.", action: "Open planner" },
     { href: "/tools/internet-plan-bottleneck-finder/", eyebrow: "Tool 2", title: "Internet-Plan Bottleneck Finder", text: "Locate the first link that prevents a device from using the full plan tier.", action: "Find bottleneck" },
     { href: "/tools/isp-equipment-checker/", eyebrow: "Tool 3", title: "ISP Equipment Checker", text: "Check whether customer-owned equipment is supported, conditional, or requires manual verification.", action: "Check equipment" },
-  ]),
+    { href: "/tools/ethernet-link-checker/", eyebrow: "Tool 4", title: "Ethernet Link Checker", text: "Check one cable run, both ports, and any adapter against 1, 2.5, 5, or 10 Gbps.", action: "Check a link" },
+    { href: "/tools/router-topology-planner/", eyebrow: "Tool 5", title: "Router Topology Planner", text: "Choose between bridge mode, access-point mode, passthrough, or one router, and see what each costs.", action: "Plan topology" },
+  ], "h2"),
 };
 
 const plannerPage: PageSpec = {
@@ -257,22 +261,119 @@ const ispPage: PageSpec = {
   `,
 };
 
+const ethernetPage: PageSpec = {
+  path: "/tools/ethernet-link-checker/",
+  title: "Ethernet Cable and Port Link Speed Checker — HomeNet Fit",
+  description: "Check whether a Cat5e, Cat6, or Cat6a run plus its ports and adapters can carry 1, 2.5, 5, or 10 Gbps, and why a link negotiated low.",
+  h1: "Does this Ethernet run actually carry the speed?",
+  lede: "Cable category is one condition out of several. This checks the whole segment—cable, both ports, any adapter—and separates a real ceiling from a link that negotiated below its own capability.",
+  crumbs: toolCrumb,
+  modules: ["/assets/ethernet-ui.js"],
+  updated,
+  body: `
+    <div class="tool-shell">
+      <form class="panel tool-form" id="ethernet-form" novalidate>
+        <fieldset><legend>What you want from this link</legend><div class="field"><label for="ethernet-target">Target link rate</label><select id="ethernet-target"><option value="1000">1 Gbps</option><option value="2500" selected>2.5 Gbps</option><option value="5000">5 Gbps</option><option value="10000">10 Gbps</option></select></div></fieldset>
+        <fieldset><legend>The cable run</legend>
+          <div class="field-row">
+            <div class="field"><label for="cable-category">Printed category</label><select id="cable-category"><option value="cat5">Cat5</option><option value="cat5e" selected>Cat5e</option><option value="cat6">Cat6</option><option value="cat6a">Cat6a</option><option value="unknown">Unlabeled or unsure</option></select><small>Read the printing along the jacket, not the packaging.</small></div>
+            <div class="field"><label for="cable-length">Run length <span class="form-note">(optional)</span></label><input id="cable-length" type="number" min="1" max="500" inputmode="decimal" placeholder="Metres"><small>Leave blank if the run is clearly under 100 m.</small></div>
+          </div>
+        </fieldset>
+        <fieldset><legend>Both ends</legend>
+          <div class="field-row">
+            <div class="field"><label for="port-a">Router or switch port</label><select id="port-a">${rateOptions(2500)}</select></div>
+            <div class="field"><label for="port-b">Device network interface</label><select id="port-b">${rateOptions(2500)}</select></div>
+          </div>
+          <label class="check-row"><input id="adapter-present" type="checkbox">A USB adapter, dock, or media converter is in this path</label>
+          <div class="field" id="adapter-field" hidden><label for="adapter-rate">Adapter or dock rate</label><select id="adapter-rate">${rateOptions(1000)}</select></div>
+        </fieldset>
+        <fieldset><legend>What the link reports now</legend>
+          <label class="check-row"><input id="observed-known" type="checkbox">I can see the negotiated link rate</label>
+          <div class="field" id="observed-field" hidden><label for="observed-rate">Reported link rate</label><select id="observed-rate">${rateOptions(1000)}</select><small>Use the rate the operating system or switch reports for this port, not a speed-test number.</small></div>
+        </fieldset>
+        <div class="form-actions"><button type="submit">Check this link</button><button type="reset" class="secondary">Reset</button></div>
+      </form>
+      <section class="panel tool-result" id="ethernet-result" aria-live="polite" aria-label="Ethernet link result"><div class="result-empty"><div><span class="empty-icon">⇄</span><strong>Describe one segment at a time.</strong><p>One cable, the port at each end, and any adapter between them.</p></div></div></section>
+    </div>
+    <article class="prose">
+      <h2>Why the cable is rarely the whole answer</h2><p>A category rating is a promise about the cable under a defined installation. It says nothing about the port at either end, the adapter in the middle, or whether all four pairs survived the last time someone pulled the run through a wall. A gigabit-rated cable paired with a 100 Mbps port produces a 100 Mbps link, and the cable is blameless.</p>
+      <h2>What the categories actually carry</h2><p>The approved IEEE 802.3 objectives define 2.5 Gb/s over Cat5e up to at least 100 m, and 5 Gb/s over Cat6 at the same distance. 5 Gb/s on Cat5e exists only for defined deployments, so this tool does not hand you that as a verified ceiling. 10 Gb/s over Cat6 is specified as a distance-limited case between 55 m and 100 m, which is why a Cat6 run is not a dependable 10G path and Cat6a is.</p>
+      <table><thead><tr><th>Cable</th><th>Verified ceiling here</th><th>Condition worth knowing</th></tr></thead><tbody><tr><td data-label="Cable">Cat5</td><td data-label="Verified ceiling here">100 Mbps</td><td data-label="Condition worth knowing">Gigabit often negotiates on a short run, but it is not a rated outcome.</td></tr><tr><td data-label="Cable">Cat5e</td><td data-label="Verified ceiling here">2.5 Gbps</td><td data-label="Condition worth knowing">5 Gbps is defined only for specific deployments, not for any Cat5e run.</td></tr><tr><td data-label="Cable">Cat6</td><td data-label="Verified ceiling here">5 Gbps</td><td data-label="Condition worth knowing">10 Gbps is a 55 m to 100 m distance-limited case.</td></tr><tr><td data-label="Cable">Cat6a</td><td data-label="Verified ceiling here">10 Gbps</td><td data-label="Condition worth knowing">Rated for the full 100 m, which is why it is the safe choice for new runs.</td></tr></tbody></table>
+      <h2>The 100 Mbps tell</h2><p>If a path that should reach a gigabit reports 100 Mbps, suspect the wiring before the hardware. Gigabit needs all four pairs; 100BASE-TX needs two. A single broken conductor, a badly punched keystone, or a staple through the jacket drops the link exactly one tier and keeps working, which is what makes it so easy to misdiagnose as a slow router.</p>
+      <h2>Worked example</h2><p>A 2.5 Gbps plan, a 2.5 GbE router port, a 2.5 GbE desktop card, and a 12 m Cat5e run should negotiate 2.5 Gbps. If it reports 1 Gbps instead, the cable is not the suspect: one end is probably advertising only gigabit, or the run passes through a dock that tops out there. Reseating and a known-good patch cable settle it in two minutes, for nothing.</p>
+      <div class="callout"><p><strong>Nothing is measured here.</strong> This tool evaluates what you type. It never scans your network, reads your adapter, or tests a cable remotely.</p></div>
+    </article>
+    ${related([
+      { href: "/guides/ethernet-cable-categories/", title: "Cable categories without the marketing", text: "What each category is rated to do, and where the limits bite." },
+      { href: "/guides/ethernet-negotiated-100mbps/", title: "Why a gigabit link negotiates at 100 Mbps", text: "Find the fault instead of replacing working hardware." },
+      { href: "/tools/internet-plan-bottleneck-finder/", title: "Internet-Plan Bottleneck Finder", text: "Put this segment back into the full path to your plan." },
+    ])}
+  `,
+};
+
+const topologyPage: PageSpec = {
+  path: "/tools/router-topology-planner/",
+  title: "Bridge Mode, AP Mode, and Double NAT Decision Tool — HomeNet Fit",
+  description: "Decide whether your router belongs in bridge mode, access-point mode, or behind the ISP gateway, and what each choice costs you.",
+  h1: "Bridge mode, AP mode, or leave it alone?",
+  lede: "Two routers in one home is a decision, not an accident. This picks the arrangement your provider actually supports and names what each one takes away.",
+  crumbs: toolCrumb,
+  modules: ["/assets/topology-ui.js"],
+  updated,
+  body: `
+    <div class="tool-shell">
+      <form class="panel tool-form" id="topology-form" novalidate>
+        <fieldset><legend>Your provider and hardware</legend>
+          <div class="field"><label for="topology-provider">Internet provider</label><select id="topology-provider">${providerOptions()}</select></div>
+          <div class="field"><label for="own-device">What you own</label><select id="own-device"><option value="router">A router</option><option value="mesh">A mesh system</option></select></div>
+          <label class="check-row"><input id="keeps-gateway" type="checkbox" checked>The provider gateway stays in the path</label>
+          <div class="field" id="bridge-field"><label for="bridge-support">Does that gateway offer bridge mode?</label><select id="bridge-support"><option value="unknown" selected>I have not checked</option><option value="yes">Yes, I found the setting</option><option value="no">No, there is no bridge option</option></select></div>
+        </fieldset>
+        <fieldset><legend>What the network has to keep doing</legend>
+          <label class="check-row"><input id="needs-features" type="checkbox" checked>I need my own router's features: port forwarding, VPN, parental controls, or a guest network</label>
+          <label class="check-row"><input id="topology-voice" type="checkbox">Provider voice service is active</label>
+          <label class="check-row"><input id="topology-tv" type="checkbox">Provider TV service is active</label>
+        </fieldset>
+        <div class="form-actions"><button type="submit">Plan the topology</button><button type="reset" class="secondary">Reset</button></div>
+      </form>
+      <section class="panel tool-result" id="topology-result" aria-live="polite" aria-label="Topology plan"><div class="result-empty"><div><span class="empty-icon">⇢</span><strong>One routing authority, where possible.</strong><p>The plan names each device's job, the cable order, and the features you lose.</p></div></div></section>
+    </div>
+    <article class="prose">
+      <h2>What double NAT is, in one paragraph</h2><p>Network address translation lets many devices share one public address. When a retail router sits behind an ISP gateway that is also routing, translation happens twice. Outbound browsing survives that fine, which is why it goes unnoticed for months. Inbound connections do not: port forwarding has to be configured on both devices to work at all, and some consoles, remote-access tools, and self-hosted services simply report a problem and stop.</p>
+      <h2>The four arrangements</h2><p><strong>One router only.</strong> An approved customer-owned modem or a direct ONT handoff removes the provider's routing device entirely. Simplest result, fewest surprises.</p><p><strong>Gateway in bridge mode.</strong> The gateway stops routing and hands the connection to your router, which keeps every feature you paid for. This is the documented fix when the provider supports it.</p><p><strong>Passthrough.</strong> Where a gateway is required and cannot bridge, some providers hand the public address to one downstream device. It removes most of the symptoms without removing the layer, so it is worth naming honestly rather than calling it a bridge.</p><p><strong>Access-point mode.</strong> The gateway keeps routing and your hardware provides Wi-Fi and switching only. NAT happens once. The cost is real: guest networks, site blocking, VPN service, and remote management stop working on a device in AP mode.</p>
+      <h2>Choosing between the last two</h2><p>The question is not which is technically purer. It is whether you need the features your own router loses. If you run a VPN service or depend on parental controls, AP mode takes those away and no setting brings them back. If you only added the hardware for coverage, AP mode is the cleaner answer and costs you nothing you were using.</p>
+      <h2>Before you change a mode</h2><p>Provider voice and TV services often depend on the gateway continuing to behave the way it does now. Bridging or bypassing it can take a phone line or a set-top feature with it. Confirm that path first—this tool marks those combinations as unverified rather than guessing on your behalf.</p>
+      <div class="callout"><p><strong>Menus differ by model.</strong> The plan tells you which mode to use and in what order; use the linked official instructions for the exact screens on your hardware.</p></div>
+    </article>
+    ${related([
+      { href: "/guides/double-nat-explained/", title: "Double NAT, and when it actually matters", text: "Which symptoms are real and which are folklore." },
+      { href: "/guides/bridge-mode-vs-ap-mode/", title: "Bridge mode vs. access-point mode", text: "Same goal, different costs. Pick on features, not vocabulary." },
+      { href: "/tools/isp-equipment-checker/", title: "ISP Equipment Checker", text: "Confirm the provider rule before you change any mode." },
+    ])}
+  `,
+};
+
 const categoryPages: PageSpec[] = [
   {
     path: "/compatibility/", title: "Home Network Compatibility — HomeNet Fit", description: "Check ISP equipment arrangements and the full path between provider, gateway, router, link, and client.", h1: "Compatibility", lede: "Compatibility is a relationship with conditions—not a product badge.", crumbs: homeCrumb, updated,
     body: pageCards([
       { href: "/tools/network-compatibility-planner/", eyebrow: "Full path", title: "Whole-Network Compatibility Planner", text: "Check five links and provider policy together.", action: "Open tool" },
       { href: "/tools/isp-equipment-checker/", eyebrow: "Provider", title: "ISP Equipment Checker", text: "Review customer-owned equipment rules and current sources.", action: "Open tool" },
+      { href: "/tools/router-topology-planner/", eyebrow: "Topology", title: "Router Topology Planner", text: "Decide between bridge mode, AP mode, passthrough, or a single router.", action: "Open tool" },
       { href: "/guides/approved-modem-lists/", eyebrow: "Guide", title: "Approved modem lists", text: "Understand why provider, address, tier, and service options matter.", action: "Read guide" },
-    ]),
+      { href: "/guides/bridge-mode-vs-ap-mode/", eyebrow: "Guide", title: "Bridge mode vs. AP mode", text: "Same goal, different cost. Compare what each mode removes.", action: "Read guide" },
+    ], "h2"),
   },
   {
     path: "/bottlenecks/", title: "Home Network Bottlenecks — HomeNet Fit", description: "Find which gateway, router, switch, cable, link, or client interface limits an internet plan.", h1: "Bottlenecks", lede: "The first low required link matters more than the fastest label elsewhere in the network.", crumbs: homeCrumb, updated,
     body: pageCards([
       { href: "/tools/internet-plan-bottleneck-finder/", eyebrow: "Tool", title: "Internet-Plan Bottleneck Finder", text: "Compare every required link against the plan tier.", action: "Open tool" },
       { href: "/guides/wan-lan-port-speeds/", eyebrow: "Guide", title: "WAN and LAN port speeds", text: "Read the port chain behind gigabit and multi-gig service.", action: "Read guide" },
+      { href: "/tools/ethernet-link-checker/", eyebrow: "Tool", title: "Ethernet Link Checker", text: "Test one segment: cable, both ports, and any adapter.", action: "Open tool" },
       { href: "/guides/router-for-multigig-plan/", eyebrow: "Guide", title: "Router for a multi-gig plan", text: "Know which links need more than 1 GbE before buying.", action: "Read guide" },
-    ]),
+      { href: "/guides/ethernet-negotiated-100mbps/", eyebrow: "Guide", title: "Stuck at 100 Mbps", text: "Find the fault before replacing working hardware.", action: "Read guide" },
+    ], "h2"),
   },
 ];
 
@@ -395,6 +496,42 @@ const guides: Guide[] = [
     sourceIds: ["tmobile-connect"],
     body: `<h2>Direct answer</h2><p>You can connect a third-party router or Wi-Fi 6 mesh system to the T-Mobile Home Internet gateway by Ethernet. You cannot replace the gateway with a retail modem, and T-Mobile's current guidance says the gateway does not offer bridge mode.</p><h2>Choose the downstream role</h2><table><thead><tr><th>Goal</th><th>Arrangement</th><th>Condition</th></tr></thead><tbody><tr><td data-label="Goal">Add coverage with minimal routing change</td><td data-label="Arrangement">Mesh or router in access-point mode</td><td data-label="Condition">Gateway remains the routing device</td></tr><tr><td data-label="Goal">Use customer-router controls</td><td data-label="Arrangement">Router WAN connected to gateway Ethernet</td><td data-label="Condition">T-Mobile gateway still routes; double NAT may remain</td></tr><tr><td data-label="Goal">Replace the T-Mobile gateway</td><td data-label="Arrangement">Retail modem or gateway</td><td data-label="Condition">Incompatible with the reviewed rule</td></tr><tr><td data-label="Goal">Bridge the T-Mobile gateway</td><td data-label="Arrangement">Bridge-mode request</td><td data-label="Condition">Not available in current official guidance</td></tr></tbody></table><h2>Double NAT is a condition, not an automatic failure</h2><p>Ordinary browsing and streaming may still work when both the T-Mobile gateway and downstream router perform NAT. Applications that need inbound connections, strict NAT behavior, or certain VPN and gaming arrangements may not. The site should describe that limitation without promising a setting the gateway does not expose.</p><h2>Reduce competing Wi-Fi when appropriate</h2><p>T-Mobile documents managing the gateway Wi-Fi through the T-Life app. If the downstream mesh provides the home's Wi-Fi, decide whether the gateway radio should remain active. Keep the gateway reachable for provider management and restore steps.</p><h2>Do not promise a speed from the mesh label</h2><p>Fixed-wireless conditions vary before traffic reaches the home network. A new mesh cannot fix tower load, signal quality, or a provider-side limit. Compare a wired gateway test with the downstream path before buying more nodes.</p><div class="callout"><p><strong>Next step:</strong> check the required gateway arrangement in the <a href="/tools/isp-equipment-checker/">ISP equipment checker</a>, then use the <a href="/tools/network-compatibility-planner/">whole-network planner</a> to model the downstream path.</p></div>`,
   },
+  {
+    slug: "ethernet-cable-categories",
+    title: "Cat5e vs. Cat6 vs. Cat6a: What Each Cable Is Actually Rated To Carry",
+    seoTitle: "Cat5e vs Cat6 vs Cat6a Speed and Distance — HomeNet Fit",
+    description: "Compare Cat5e, Cat6, and Cat6a against 1, 2.5, 5, and 10 Gbps using approved IEEE 802.3 objectives, including the distance limits retailers leave out.",
+    lede: "The useful question is not which cable is newest. It is which rate each one is rated to carry, and for how far.",
+    sourceIds: ["ieee-8023bz-objectives", "ieee-8023an-objectives", "netgear-multigig-ports"],
+    body: `<h2>Direct answer</h2><p>For a home run of 100 m or less: Cat5e carries 2.5 Gbps, Cat6 carries 5 Gbps, and Cat6a carries 10 Gbps. Those are the rates defined in the approved IEEE 802.3 objectives, not vendor marketing. Anything above those numbers exists only as a distance-limited or deployment-specific case, which is a different kind of claim and worth treating differently.</p><h2>The rating table</h2><table><thead><tr><th>Cable</th><th>Rated to 100 m</th><th>The condition retailers skip</th></tr></thead><tbody><tr><td data-label="Cable">Cat5</td><td data-label="Rated to 100 m">100 Mbps</td><td data-label="The condition retailers skip">Gigabit frequently negotiates on a short Cat5 run. It is a happy accident, not a specification, so do not design around it.</td></tr><tr><td data-label="Cable">Cat5e</td><td data-label="Rated to 100 m">2.5 Gbps</td><td data-label="The condition retailers skip">5 Gbps over Cat5e is defined only for specific deployments and configurations, not for an arbitrary run inside a wall.</td></tr><tr><td data-label="Cable">Cat6</td><td data-label="Rated to 100 m">5 Gbps</td><td data-label="The condition retailers skip">10 Gbps over Cat6 is specified as a distance-limited case between 55 m and 100 m, depending on the installation.</td></tr><tr><td data-label="Cable">Cat6a</td><td data-label="Rated to 100 m">10 Gbps</td><td data-label="The condition retailers skip">None worth noting at home. This is why it is the default for a new permanent run.</td></tr></tbody></table><h2>Why the Cat5e already in your wall is probably fine</h2><p>The most common upgrade question is whether a 1.2 or 2 Gbps plan requires rewiring the house. Usually it does not. Cat5e is rated for 2.5 Gbps across a full 100 m run, which covers the majority of residential plans sold today. Replacing in-wall cable is the most expensive and most disruptive change available, and it is rarely the part actually limiting the link.</p><h2>When the cable is genuinely the problem</h2><ul><li><strong>The run exceeds 100 m.</strong> Every rate here depends on that channel limit. Split the run with a switch instead of buying a better cable.</li><li><strong>You are targeting 10 Gbps.</strong> Cat6 may or may not reach it depending on length; Cat6a removes the question.</li><li><strong>The cable is damaged.</strong> A pierced or crushed run loses pairs, and losing pairs drops the negotiated rate a full tier while the link keeps working.</li><li><strong>It is unlabeled.</strong> An unidentified cable has no rating, so treat the ceiling as unknown rather than assuming the best case.</li></ul><h2>What a category rating does not promise</h2><p>A cable rating describes the cable under a defined installation. It says nothing about the port at either end, the USB adapter in the middle, or the quality of the termination at the keystone. A Cat6a run into a 1 GbE laptop port is a 1 Gbps link, and the cable did nothing wrong. Multi-gig rates also require both ends to support and enable them: a port that advertises only gigabit settles at gigabit no matter what sits between it and the switch.</p><h2>Buying advice, briefly</h2><p>For a new permanent run inside walls, use Cat6a. Labour dominates the cost, and the cable is the part you cannot easily change later. For patch cables on a desk, buy the category that matches your target rate and nothing more; a shorter, well-made Cat6 patch cable beats a cheap Cat8 one. Shielding matters in industrial noise, not in a typical home, and shielded cable terminated without proper grounding can perform worse than unshielded.</p><div class="callout"><p><strong>Next step:</strong> enter the exact run, both ports, and any adapter in the <a href="/tools/ethernet-link-checker/">Ethernet link checker</a> to see which part sets the ceiling.</p></div>`,
+  },
+  {
+    slug: "ethernet-negotiated-100mbps",
+    title: "Why a Gigabit Connection Negotiates at 100 Mbps",
+    seoTitle: "Ethernet Link Stuck at 100 Mbps — HomeNet Fit",
+    description: "Diagnose an Ethernet link reporting 100 Mbps on gigabit hardware, from lost pairs and bad terminations to fixed-speed settings and USB docks.",
+    lede: "A link that reports exactly 100 Mbps on gigabit hardware is a fault with a short list of causes. Work the list before buying anything.",
+    sourceIds: ["ieee-8023bz-objectives", "netgear-multigig-ports"],
+    body: `<h2>Direct answer</h2><p>Gigabit Ethernet needs all four twisted pairs. 100BASE-TX needs two. When a gigabit-capable path reports 100 Mbps, the most likely explanation is that two pairs stopped carrying signal: a broken conductor, a poorly punched keystone, a staple through the jacket, or a partially seated plug. The link still works, which is exactly what gets it misdiagnosed as a slow router or a bad ISP.</p><h2>Check in this order</h2><ol><li><strong>Reseat both ends.</strong> Unplug and firmly reconnect each connector, then read the reported link rate again. This costs nothing and resolves a meaningful share of cases.</li><li><strong>Substitute a known-good short patch cable</strong> between the same two ports. If the rate recovers, the permanent run or its terminations are the fault.</li><li><strong>Change ports.</strong> Move the device to a different port on the same switch or router to rule out one failed port.</li><li><strong>Check auto-negotiation.</strong> An interface pinned to a fixed speed and duplex, usually left over from an old troubleshooting session, forces the whole link down. Set both ends back to auto.</li><li><strong>Remove the dock.</strong> A USB adapter or docking station negotiates on its own terms and can cap the link below both ports. Test the machine's built-in port before blaming the wiring.</li><li><strong>Re-terminate or replace the run</strong> only once the tests above point at it.</li></ol><h2>Read the right number</h2><p>Diagnose using the negotiated link rate your operating system or switch reports for that port, not a speed-test result. A speed test measures everything between you and a remote server, including the internet plan itself. The link rate is a property of the two interfaces and the cable between them, which is what you are trying to isolate.</p><table><thead><tr><th>Symptom</th><th>Most likely cause</th><th>First test</th></tr></thead><tbody><tr><td data-label="Symptom">Exactly 100 Mbps on gigabit hardware</td><td data-label="Most likely cause">Two pairs lost in the run or a termination</td><td data-label="First test">Known-good patch cable</td></tr><tr><td data-label="Symptom">1 Gbps when both ends are multi-gig</td><td data-label="Most likely cause">One port advertising only 1 Gbps, or a dock in the path</td><td data-label="First test">Bypass the dock, then confirm both ports enable 802.3bz</td></tr><tr><td data-label="Symptom">Rate drops after moving furniture</td><td data-label="Most likely cause">Crushed or stretched cable</td><td data-label="First test">Inspect and replace the patch run</td></tr><tr><td data-label="Symptom">Link flaps between rates</td><td data-label="Most likely cause">Marginal termination or a failing port</td><td data-label="First test">Change ports, then re-terminate</td></tr></tbody></table><h2>The multi-gig version of the same problem</h2><p>The same logic applies one tier up. A 2.5 Gbps path that settles at 1 Gbps is usually not a cable problem at all: 2.5G and 5G rates require both ends to support and enable them, so a port that advertises only gigabit negotiates gigabit over perfectly good Cat6. Confirm what each interface advertises before assuming the run needs replacing.</p><h2>What not to do</h2><p>Do not replace the router first. It is the most visible device and the least likely cause of a link stuck one tier below its capability. Do not re-crimp a working permanent run before testing with a patch cable. Do not fix the speed manually to force gigabit; a forced mismatch produces worse results than the problem it was meant to solve.</p><div class="callout"><p><strong>Next step:</strong> describe the segment in the <a href="/tools/ethernet-link-checker/">Ethernet link checker</a>, including the rate the link currently reports. It separates a real ceiling from a negotiation fault.</p></div>`,
+  },
+  {
+    slug: "double-nat-explained",
+    title: "Double NAT: What Actually Breaks, and What Does Not",
+    seoTitle: "Double NAT Explained — HomeNet Fit",
+    description: "Understand what double NAT is, which symptoms it genuinely causes, how to confirm it in two minutes, and the documented ways to remove a second routing layer.",
+    lede: "Double NAT is real, common, and much less catastrophic than forum threads suggest. It breaks a specific list of things.",
+    sourceIds: ["netgear-double-nat", "att-ip-passthrough", "tmobile-connect"],
+    body: `<h2>Direct answer</h2><p>Double NAT means two devices in your home are both performing network address translation, typically an ISP gateway and a retail router plugged into it. Outbound traffic is unaffected, which is why it goes unnoticed for months. Inbound connections are affected: port forwarding has to be configured on both devices to work at all, and some services report a problem and stop.</p><h2>What it actually breaks</h2><ul><li><strong>Port forwarding.</strong> A rule on the inner router alone does nothing, because the outer device never sends the traffic inward.</li><li><strong>Self-hosted services.</strong> A game server, a camera recorder, or a home lab reachable from outside needs a path through both layers.</li><li><strong>Console NAT type.</strong> Consoles commonly report strict or moderate NAT, which can affect matchmaking and party chat.</li><li><strong>Some VPN and remote-access tools.</strong> Anything expecting an inbound connection or a stable port mapping can behave unpredictably.</li></ul><h2>What it does not break</h2><p>Browsing, streaming, video calls, downloads, cloud backup, and nearly everything else that starts from inside your network. Double NAT does not meaningfully reduce your speed, and it is not why a page loads slowly. If throughput is the complaint, the cause is a port, a link, or the plan; check the path before changing topology.</p><h2>How to confirm it in two minutes</h2><ol><li>Open the retail router's status page and read its WAN or internet IP address.</li><li>If that address starts with 192.168, starts with 10., or falls between 172.16 and 172.31, it was issued by another router inside your home. That is double NAT.</li><li>If it looks like a public address, or the router reports a single NAT layer, you do not have the problem.</li></ol><p>A traceroute showing two private hops before the first provider address tells you the same thing.</p><h2>The four ways out</h2><table><thead><tr><th>Fix</th><th>What it does</th><th>Cost</th></tr></thead><tbody><tr><td data-label="Fix">Bridge mode on the gateway</td><td data-label="What it does">The gateway stops routing; your router keeps every feature</td><td data-label="Cost">Available only where the provider documents it</td></tr><tr><td data-label="Fix">IP passthrough</td><td data-label="What it does">The gateway hands its public-facing address to one downstream device</td><td data-label="Cost">The gateway stays in the path and support is split across two devices</td></tr><tr><td data-label="Fix">Access-point mode</td><td data-label="What it does">Your router stops routing and provides Wi-Fi and switching only</td><td data-label="Cost">Guest network, site blocking, VPN service, and remote management stop working</td></tr><tr><td data-label="Fix">Own modem, one router</td><td data-label="What it does">Removes the provider routing device entirely</td><td data-label="Cost">Requires an approved modem for your exact provider and tier</td></tr></tbody></table><h2>When leaving it alone is correct</h2><p>If nothing on your list of complaints appears above, double NAT is a label rather than a problem. Some providers do not offer bridge mode at all; T-Mobile's current guidance for its Home Internet gateway is one example. In that situation the honest options are access-point mode or accepting the second layer. Changing topology to fix a symptom you do not have is how a working network becomes a broken one.</p><div class="callout"><p><strong>Next step:</strong> the <a href="/tools/router-topology-planner/">topology planner</a> checks your provider's reviewed record and names which of these four options is available to you.</p></div>`,
+  },
+  {
+    slug: "bridge-mode-vs-ap-mode",
+    title: "Bridge Mode vs. Access-Point Mode: Same Goal, Different Cost",
+    seoTitle: "Bridge Mode vs AP Mode — HomeNet Fit",
+    description: "Compare bridge mode and access-point mode for a router behind an ISP gateway, including which router features each one keeps and which it removes.",
+    lede: "Both leave one routing device. Only one of them lets your router keep doing its job.",
+    sourceIds: ["netgear-router-ap-mode", "xfinity-bridge-mode", "netgear-double-nat"],
+    body: `<h2>Direct answer</h2><p>Bridge mode is a setting on the <strong>ISP gateway</strong>: it stops routing and hands the connection to your router, which keeps every feature. Access-point mode is a setting on <strong>your router</strong>: it stops routing and provides Wi-Fi and switching only, while the gateway stays in charge. Both leave one routing device. The difference is which device it is, and therefore which features survive.</p><h2>Which device you are configuring</h2><table><thead><tr><th>Question</th><th>Bridge mode</th><th>Access-point mode</th></tr></thead><tbody><tr><td data-label="Question">Setting lives on</td><td data-label="Bridge mode">The ISP gateway</td><td data-label="Access-point mode">Your own router</td></tr><tr><td data-label="Question">Device that routes</td><td data-label="Bridge mode">Your router</td><td data-label="Access-point mode">The ISP gateway</td></tr><tr><td data-label="Question">Your router's features</td><td data-label="Bridge mode">All retained</td><td data-label="Access-point mode">Guest network, site blocking, VPN service, and remote management stop working</td></tr><tr><td data-label="Question">Port forwarding configured on</td><td data-label="Bridge mode">Your router</td><td data-label="Access-point mode">The ISP gateway</td></tr><tr><td data-label="Question">Available when</td><td data-label="Bridge mode">The provider documents the setting</td><td data-label="Access-point mode">Always, because it is your hardware</td></tr></tbody></table><h2>Prefer bridge mode when it exists</h2><p>If you bought the router for its features, bridge mode is the arrangement that lets you use them. Xfinity, for example, publishes a bridge-mode procedure for using a customer-owned router with its wireless gateway. Vendor guidance follows the same order: bridge the ISP gateway and keep the retail router in router mode, then fall back to access-point mode with the gateway's Wi-Fi turned off when bridge mode is unavailable.</p><h2>Access-point mode is not a downgrade if you bought for coverage</h2><p>The features AP mode removes are only a loss if you were using them. If the mesh system went in to cover a back bedroom and the gateway's parental controls are fine, AP mode is the simpler arrangement and costs you nothing. Decide on the feature list you actually use, not on which mode sounds more advanced.</p><h2>Practical cautions</h2><ul><li><strong>Turn off the gateway's Wi-Fi</strong> in an AP-mode setup, or two networks compete for the same airtime and clients attach to the wrong one.</li><li><strong>Bridge mode usually disables the gateway's Wi-Fi and LAN services.</strong> Have your own router configured and ready before you flip it, or you will be offline mid-change.</li><li><strong>Provider voice and TV can depend on the gateway routing.</strong> Confirm that path first. This is the most common way a working phone line quietly dies.</li><li><strong>Write down the current cabling.</strong> A photograph of the back of both devices is enough to restore it.</li><li><strong>Menus differ by model.</strong> Use the instructions for your exact gateway and router, not for a similarly named one.</li></ul><h2>If neither is available</h2><p>Some required gateways offer neither bridge mode nor passthrough. The real options are then access-point mode, or accepting double NAT and forwarding ports on the gateway instead. Both are legitimate. Neither requires new hardware.</p><div class="callout"><p><strong>Next step:</strong> the <a href="/tools/router-topology-planner/">topology planner</a> uses your provider's reviewed gateway record to say which mode is documented for you, and lists what the recommended arrangement takes away.</p></div>`,
+  },
 ];
 
 const guidesIndex: PageSpec = {
@@ -405,7 +542,7 @@ const guidesIndex: PageSpec = {
   lede: "Direct explanations that lead into a working decision tool.",
   crumbs: homeCrumb,
   updated,
-  body: pageCards(guides.map((guide) => ({ href: `/guides/${guide.slug}/`, eyebrow: "Guide", title: guide.title, text: guide.lede, action: "Read guide" }))),
+  body: pageCards(guides.map((guide) => ({ href: `/guides/${guide.slug}/`, eyebrow: "Guide", title: guide.title, text: guide.lede, action: "Read guide" })), "h2"),
 };
 
 const guidePages: PageSpec[] = guides.map((guide) => ({
@@ -442,7 +579,7 @@ const trustPages: PageSpec[] = [
   },
   {
     path: "/changelog/", title: "Changelog — HomeNet Fit", description: "See dated HomeNet Fit changes covering tools, provider rules, source coverage, privacy behavior, index controls, and material decision logic.", h1: "Changelog", lede: "Material rule and tool changes stay visible.", crumbs: homeCrumb, updated,
-    body: `<article class="prose"><h2>September 14, 2026</h2><ul><li>Created the local static foundation.</li><li>Added Tools 1–3 with shared deterministic logic.</li><li>Expanded coverage to Xfinity, Spectrum, Cox cable, AT&amp;T Fiber, Verizon Fios, and T-Mobile Home Internet.</li><li>Expanded the guide library from six to twelve substantive pages.</li><li>Recorded passing 85/100 publication gates for all three tools and twelve guides.</li><li>Kept all pages noindex pending separate deployment and publication review.</li></ul></article>`,
+    body: `<article class="prose"><h2>September 14, 2026</h2><ul><li>Created the local static foundation.</li><li>Added Tools 1–3 with shared deterministic logic.</li><li>Expanded coverage to Xfinity, Spectrum, Cox cable, AT&amp;T Fiber, Verizon Fios, and T-Mobile Home Internet.</li><li>Expanded the guide library from six to sixteen substantive pages.</li><li>Added the Ethernet link checker and router topology planner, bringing the tool count to five.</li><li>Added IEEE 802.3 cabling objectives and vendor bridge-mode, AP-mode, and double-NAT records to the source set.</li><li>Recorded passing 85/100 publication gates for all five tools and sixteen guides.</li><li>Kept all pages noindex pending separate deployment and publication review.</li></ul></article>`,
   },
   {
     path: "/privacy/", title: "Privacy — HomeNet Fit", description: "Read what the local HomeNet Fit tools process, which sensitive network details they never request, and what must change before public analytics or ads.", h1: "Privacy", lede: "The current tools run entirely in the browser and do not send entered network details to a server.", crumbs: homeCrumb, updated,
@@ -471,12 +608,16 @@ const notFound: PageSpec = {
   body: `<div class="button-row"><a class="button" href="/">Go home</a><a class="button button-secondary" href="/tools/">Browse tools</a></div>`,
 };
 
+const TOOL_COUNT = 5;
+
 const pages: PageSpec[] = [
   home,
   toolsIndex,
   plannerPage,
   bottleneckPage,
   ispPage,
+  ethernetPage,
+  topologyPage,
   ...categoryPages,
   guidesIndex,
   ...guidePages,
@@ -505,6 +646,8 @@ const bundle = await Bun.build({
     join(root, "src", "planner-ui.ts"),
     join(root, "src", "bottleneck-ui.ts"),
     join(root, "src", "isp-ui.ts"),
+    join(root, "src", "ethernet-ui.ts"),
+    join(root, "src", "topology-ui.ts"),
   ],
   outdir: join(out, "assets"),
   target: "browser",
@@ -524,10 +667,10 @@ await write(join(out, "build-manifest.json"), JSON.stringify({
   mode: BUILD_MODE,
   generatedAt: new Date().toISOString(),
   pages: pages.length,
-  tools: 3,
+  tools: TOOL_COUNT,
   guides: guides.length,
-  providerRuleSets: 3,
+  providerRuleSets: listProviders().length,
   indexablePages: BUILD_MODE === "production" ? pages.filter((page) => page.indexable).length : 0,
 }, null, 2) + "\n");
 
-console.log(`Built ${pages.length} pages, 3 tools, and ${guides.length} guides in ${BUILD_MODE} mode.`);
+console.log(`Built ${pages.length} pages, ${TOOL_COUNT} tools, and ${guides.length} guides in ${BUILD_MODE} mode.`);

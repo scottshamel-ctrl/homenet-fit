@@ -7,9 +7,11 @@ Implemented:
 - Whole-Network Compatibility and Upgrade Planner
 - Internet-Plan Bottleneck Finder
 - ISP Modem and Own-Router Checker
+- Ethernet Cable, Port, and Adapter Link Checker
+- Router Topology Planner for bridge mode, access-point mode, and double NAT
 - Static, crawlable page generation with framework-free browser interactions
 - Versioned ISP rules and evidence records
-- Local-build `noindex` controls, sitemap, robots file, trust pages, and twelve supporting guides
+- Local-build `noindex` controls, sitemap, robots file, trust pages, and sixteen supporting guides
 - Reviewed rules for Xfinity, Spectrum, Cox cable, AT&T Fiber, Verizon Fios, and T-Mobile Home Internet
 - Recorded 85/100 publication gates for every tool and guide page
 - Unit tests and generated-site verification

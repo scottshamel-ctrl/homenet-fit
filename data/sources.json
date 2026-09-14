@@ -141,6 +141,56 @@
       "retrieved": "2026-09-14",
       "nextReview": "2027-03-14",
       "evidenceNote": "NETGEAR documents 1, 2.5, and 5 Gbps multi-gig rates and explains that a gigabit port limits a multi-gig connection to a 1 Gbps Ethernet line rate."
+    },
+    {
+      "sourceId": "ieee-8023bz-objectives",
+      "title": "IEEE 802.3 2.5G/5GBASE-T (NGEABT) Task Force Objectives",
+      "publisher": "IEEE 802.3 Ethernet Working Group",
+      "url": "https://www.ieee802.org/3/bz/ngeabt_objectives_802.3WG_approved_0315.pdf",
+      "publishedOrUpdated": "2015-03",
+      "retrieved": "2026-09-14",
+      "nextReview": "2027-03-14",
+      "evidenceNote": "Approved objectives define 2.5 Gb/s operation up to at least 100 m on four-pair Class D (Cat5e) cabling, 5 Gb/s up to at least 100 m on Class E (Cat6), and 5 Gb/s up to 100 m on Class D only for defined use cases and deployment configurations. Auto-Negotiation (Clause 28) support is an objective."
+    },
+    {
+      "sourceId": "ieee-8023an-objectives",
+      "title": "IEEE P802.3an 10GBASE-T Task Force Objectives",
+      "publisher": "IEEE 802.3 Ethernet Working Group",
+      "url": "https://www.ieee802.org/3/an/objectives.pdf",
+      "publishedOrUpdated": "2004",
+      "retrieved": "2026-09-14",
+      "nextReview": "2027-03-14",
+      "evidenceNote": "Approved objectives define 10 Gb/s operation over at least 100 m of four-pair Class F cabling and at least 55 m to 100 m of four-pair Class E (Cat6) cabling, which is why a Cat6 run is a distance-limited 10G path rather than a guaranteed one."
+    },
+    {
+      "sourceId": "netgear-router-ap-mode",
+      "title": "What is the difference between router mode and AP mode?",
+      "publisher": "NETGEAR Support",
+      "url": "https://kb.netgear.com/000061927/What-is-the-difference-between-router-mode-and-AP-mode",
+      "publishedOrUpdated": "2025-07-07",
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "Access-point mode disables router features including the guest network, site blocking, VPN service, and remote management. NETGEAR recommends bridging the ISP gateway and keeping the retail router in router mode; AP mode with gateway Wi-Fi disabled is the fallback when bridge mode is unavailable."
+    },
+    {
+      "sourceId": "netgear-double-nat",
+      "title": "How do I fix problems caused by my NETGEAR Orbi or Nighthawk router connected to an ISP gateway?",
+      "publisher": "NETGEAR Support",
+      "url": "https://kb.netgear.com/30187/How-do-I-fix-problems-caused-by-my-NETGEAR-Orbi-or-Nighthawk-router-connected-to-an-ISP-gateway",
+      "publishedOrUpdated": "2025-07-07",
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "A retail router behind an ISP gateway performs double network address translation. The documented fixes are putting the ISP gateway in bridge mode, or turning off the gateway's Wi-Fi and putting the retail router in access-point mode."
+    },
+    {
+      "sourceId": "xfinity-bridge-mode",
+      "title": "Use Bridge Mode on your wireless gateway",
+      "publisher": "Xfinity",
+      "url": "https://www.xfinity.com/support/articles/wireless-gateway-enable-disable-bridge-mode",
+      "publishedOrUpdated": "2026-08",
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Xfinity publishes a bridge-mode procedure for using a customer-owned router in combination with an Xfinity Wireless Gateway."
     }
   ]
 }

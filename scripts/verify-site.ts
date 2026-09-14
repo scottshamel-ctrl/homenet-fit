@@ -42,7 +42,7 @@ function wordCount(html: string): number {
 const files = await filesBelow(site);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
 const guideDocuments: Array<{ path: string; shingles: Set<string> }> = [];
-if (htmlFiles.length !== 31) errors.push(`Expected 31 generated HTML pages, found ${htmlFiles.length}.`);
+if (htmlFiles.length !== 37) errors.push(`Expected 37 generated HTML pages, found ${htmlFiles.length}.`);
 
 for (const file of htmlFiles) {
   const html = await readFile(file, "utf8");
@@ -90,7 +90,7 @@ for (let left = 0; left < guideDocuments.length; left += 1) {
   }
 }
 
-for (const asset of ["planner-ui.js", "bottleneck-ui.js", "isp-ui.js"]) {
+for (const asset of ["planner-ui.js", "bottleneck-ui.js", "isp-ui.js", "ethernet-ui.js", "topology-ui.js"]) {
   const size = (await stat(join(site, "assets", asset))).size;
   if (size > 80 * 1024) errors.push(`${asset} exceeds the 80 KB uncompressed JavaScript budget.`);
 }

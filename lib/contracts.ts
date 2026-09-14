@@ -68,6 +68,92 @@ export interface IspCheckResult {
   confidence: Confidence;
 }
 
+export type CableCategory = "cat5" | "cat5e" | "cat6" | "cat6a" | "unknown";
+
+export interface EthernetLinkInput {
+  targetMbps: number;
+  cableCategory: CableCategory;
+  lengthMeters: number | null;
+  portARate: number | null;
+  portBRate: number | null;
+  adapterRate: number | null;
+  negotiatedMbps: number | null;
+}
+
+export interface EthernetLimiter {
+  id: string;
+  label: string;
+  ceilingMbps: number | null;
+}
+
+export interface EthernetLinkResult {
+  status: DecisionStatus;
+  targetMbps: number | null;
+  cableStatus: DecisionStatus;
+  cableCeilingMbps: number | null;
+  cableNote: string;
+  expectedCeilingMbps: number | null;
+  limiter: EthernetLimiter | null;
+  negotiatedMbps: number | null;
+  negotiationGap: boolean;
+  explanation: string;
+  causes: string[];
+  actions: string[];
+  assumptions: string[];
+  testSteps: string[];
+  sources: SourceRecord[];
+  confidence: Confidence;
+  errors: string[];
+}
+
+export type OwnDeviceKind = "router" | "mesh";
+export type BridgeSupport = "yes" | "no" | "unknown";
+export type TopologyPlanId =
+  | "own-modem-single-router"
+  | "ont-single-router"
+  | "gateway-bridge"
+  | "gateway-ip-passthrough"
+  | "gateway-plus-ap"
+  | "double-nat-accepted"
+  | "unknown";
+
+export interface TopologyInput {
+  provider: string;
+  ownDevice: OwnDeviceKind;
+  keepsProviderGateway: boolean;
+  bridgeSupport: BridgeSupport;
+  hasVoice: boolean;
+  hasTv: boolean;
+  needsRouterFeatures: boolean;
+}
+
+export interface TopologyRole {
+  device: string;
+  role: string;
+}
+
+export interface TopologyResult {
+  status: DecisionStatus;
+  planId: TopologyPlanId;
+  planName: string;
+  providerName: string;
+  providerNote: string;
+  summary: string;
+  doubleNat: "avoided" | "reduced" | "present" | "unknown";
+  doubleNatNote: string;
+  roles: TopologyRole[];
+  cablePath: string[];
+  steps: string[];
+  tradeoffs: string[];
+  warnings: string[];
+  nextAction: string;
+  sources: SourceRecord[];
+  lastVerified: string | null;
+  nextReview: string | null;
+  confidence: Confidence;
+  errors: string[];
+}
+
 export interface WholeNetworkInput extends IspCheckInput {
   planMbps: number;
   components: PathComponentInput[];

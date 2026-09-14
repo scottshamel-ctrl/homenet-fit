@@ -129,8 +129,10 @@ export function statusChip(status: string, label?: string): string {
   return `<span class="status-chip status-${escapeHtml(status)}"><span aria-hidden="true">${icons[status] ?? "•"}</span>${escapeHtml(text)}</span>`;
 }
 
-export function pageCards(items: Array<{ href: string; eyebrow: string; title: string; text: string; action?: string }>): string {
-  return `<div class="card-grid">${items.map((item) => `<a class="link-card" href="${item.href}"><span class="eyebrow">${escapeHtml(item.eyebrow)}</span><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.text)}</p><span class="card-action">${escapeHtml(item.action ?? "Open guide")} <span aria-hidden="true">→</span></span></a>`).join("")}</div>`;
+// Cards nested under a section heading use h3; cards placed directly under the page h1
+// (index and category pages) need h2 so the heading order never skips a level.
+export function pageCards(items: Array<{ href: string; eyebrow: string; title: string; text: string; action?: string }>, level: "h2" | "h3" = "h3"): string {
+  return `<div class="card-grid">${items.map((item) => `<a class="link-card" href="${item.href}"><span class="eyebrow">${escapeHtml(item.eyebrow)}</span><${level}>${escapeHtml(item.title)}</${level}><p>${escapeHtml(item.text)}</p><span class="card-action">${escapeHtml(item.action ?? "Open guide")} <span aria-hidden="true">→</span></span></a>`).join("")}</div>`;
 }
 
 export function sitemap(pages: PageSpec[]): string {

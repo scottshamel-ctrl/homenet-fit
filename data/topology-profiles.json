@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "lastVerified": "2026-09-14",
+  "nextReview": "2026-10-14",
+  "profiles": [
+    {
+      "providerId": "xfinity",
+      "gatewayRequired": false,
+      "gatewayBridgeMode": "documented",
+      "ipPassthrough": "unknown",
+      "note": "An approved customer-owned modem removes the provider gateway entirely. When the Xfinity gateway stays in place, Xfinity documents a bridge-mode procedure for using a customer-owned router with it.",
+      "sourceIds": ["xfinity-bridge-mode", "xfinity-approved-equipment"]
+    },
+    {
+      "providerId": "spectrum",
+      "gatewayRequired": false,
+      "gatewayBridgeMode": "unknown",
+      "ipPassthrough": "unknown",
+      "note": "An authorized customer-owned modem hands off Ethernet to a customer router, which keeps routing in one place. Bridge behaviour of a rented Spectrum gateway is not covered by a reviewed source here.",
+      "sourceIds": ["spectrum-authorized-modems", "spectrum-router-handoff"]
+    },
+    {
+      "providerId": "cox",
+      "gatewayRequired": false,
+      "gatewayBridgeMode": "unknown",
+      "ipPassthrough": "unknown",
+      "note": "A certified customer-owned modem hands off Ethernet to a customer router. Bridge behaviour of a rented Panoramic gateway is not covered by a reviewed source here.",
+      "sourceIds": ["cox-own-equipment", "cox-certified-modems"]
+    },
+    {
+      "providerId": "att-fiber",
+      "gatewayRequired": true,
+      "gatewayBridgeMode": "not-available",
+      "ipPassthrough": "documented",
+      "note": "The AT&T gateway stays in the path. AT&T documents a passthrough/DMZ+ arrangement that hands the public address to one downstream device instead of a true bridge.",
+      "sourceIds": ["att-gateway", "att-ip-passthrough"]
+    },
+    {
+      "providerId": "verizon-fios",
+      "gatewayRequired": false,
+      "gatewayBridgeMode": "not-applicable",
+      "ipPassthrough": "unknown",
+      "note": "The ONT terminates fiber and can hand off Ethernet directly to a customer router, so no second routing layer is required for internet service. Verizon TV and in-home app features may depend on Verizon equipment.",
+      "sourceIds": ["verizon-fios-ont", "verizon-fios-install", "verizon-fios-tv-home"]
+    },
+    {
+      "providerId": "tmobile-home-internet",
+      "gatewayRequired": true,
+      "gatewayBridgeMode": "not-available",
+      "ipPassthrough": "not-available",
+      "note": "The T-Mobile gateway must remain the routing device. It does not offer bridge mode, so a customer-owned router or mesh belongs downstream in access-point mode to avoid a second routing layer.",
+      "sourceIds": ["tmobile-connect"]
+    }
+  ]
+}
