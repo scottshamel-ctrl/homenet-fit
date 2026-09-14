@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "retrieved": "2026-09-14",
+  "sources": [
+    {
+      "sourceId": "xfinity-approved-equipment",
+      "title": "Using approved third-party equipment with Xfinity Internet and Xfinity Voice",
+      "publisher": "Xfinity",
+      "url": "https://www.xfinity.com/support/articles/list-of-approved-cable-modems",
+      "publishedOrUpdated": "2026-08",
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Customer-owned modems, routers, and gateways are allowed when certified and suitable for the member's service; model, speed-tier, address, and Voice compatibility require Xfinity's current device check."
+    },
+    {
+      "sourceId": "xfinity-device-info",
+      "title": "Device Info — Xfinity Compatible Modems",
+      "publisher": "Xfinity",
+      "url": "https://www.xfinity.com/support/internet/customerowned",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Xfinity's address- and plan-aware database is the final check for current modem recommendations and compatibility."
+    },
+    {
+      "sourceId": "att-gateway",
+      "title": "Learn About AT&T Internet Equipment",
+      "publisher": "AT&T",
+      "url": "https://www.att.com/support/article-modal/u-verse-high-speed-internet/KM1011652/",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "AT&T provides the Wi-Fi gateway that connects AT&T Internet or Fiber service to the home."
+    },
+    {
+      "sourceId": "att-ip-passthrough",
+      "title": "Get Help With DMZ+ Zone Devices",
+      "publisher": "AT&T",
+      "url": "https://www.att.com/support/article/u-verse-high-speed-internet/KM1322413/",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "AT&T documents IP Passthrough for BGW210 and BGW320 gateways, allowing one downstream device to receive the passthrough assignment."
+    },
+    {
+      "sourceId": "tmobile-connect",
+      "title": "Connect your Devices to T-Mobile Internet",
+      "publisher": "T-Mobile",
+      "url": "https://www.t-mobile.com/support/home-internet/connect",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Third-party routers connect to the T-Mobile gateway by Ethernet; supported Wi-Fi 6 mesh/extender products are compatible; the T-Mobile gateway does not offer bridge mode."
+    },
+    {
+      "sourceId": "spectrum-authorized-modems",
+      "title": "Authorized Modems to Use on the Spectrum Network",
+      "publisher": "Spectrum",
+      "url": "https://www.spectrum.net/support/internet/compliant-modems-spectrum-network",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Spectrum maintains the current authorized-modem list; exact eligibility remains model-, service-, and location-dependent and must be rechecked before purchase or activation."
+    },
+    {
+      "sourceId": "spectrum-router-handoff",
+      "title": "Advanced Wireless Gateway — Spectrum Community",
+      "publisher": "Spectrum",
+      "url": "https://community.spectrum.net/discussion/178829/advanced-wireless-gateway",
+      "publishedOrUpdated": "2026-04",
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "A verified Spectrum employee states that Spectrum supplies separate modem and router equipment and that a customer router can connect directly to the modem."
+    },
+    {
+      "sourceId": "cox-own-equipment",
+      "title": "Using Your Own Modem Device With Cox Internet",
+      "publisher": "Cox",
+      "url": "https://www.cox.com/residential/internet/learn/using-cox-compatible-modems.html",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Cox permits customer-owned equipment when the exact modem is certified for the network and selected tier; a separate router is needed when the modem does not include routing or Wi-Fi."
+    },
+    {
+      "sourceId": "cox-certified-modems",
+      "title": "Cox Certified Cable Modems",
+      "publisher": "Cox",
+      "url": "https://www.cox.com/residential/support/cox-certified-cable-modems.html",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Cox's current device list is the final model and speed-tier check; unsupported devices are not activated as new or replacement equipment."
+    },
+    {
+      "sourceId": "verizon-fios-ont",
+      "title": "MoCA to Ethernet Self Install for Fios Internet Speed Upgrade",
+      "publisher": "Verizon",
+      "url": "https://www.verizon.com/support/residential/internet/equipment/moca-to-ethernet-self-install",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Verizon identifies the ONT as the device that converts the fiber signal into separate TV, voice, and data signals and documents the Ethernet handoff used for upgraded internet service."
+    },
+    {
+      "sourceId": "verizon-fios-install",
+      "title": "Self-Install Verizon Fios Services",
+      "publisher": "Verizon",
+      "url": "https://www.verizon.com/support/residential/internet/getting-started/setup-services",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Fios service depends on an installed ONT whose status and eligibility are verified by Verizon; router setup occurs downstream of that optical termination."
+    },
+    {
+      "sourceId": "verizon-fios-agreement",
+      "title": "Fios Customer Agreement",
+      "publisher": "Verizon",
+      "url": "https://www.verizon.com/support/fios-customer-agreement/",
+      "publishedOrUpdated": "2026-08",
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "The current agreement recognizes routers or extenders purchased from Verizon or a third party and states that Verizon set-top-box streaming requires a compatible Fios router."
+    },
+    {
+      "sourceId": "verizon-fios-tv-home",
+      "title": "Fios TV Home App FAQs",
+      "publisher": "Verizon",
+      "url": "https://www.verizon.com/support/residential/tv/streaming-device-connection/fios-tv-home-app",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "evidenceNote": "Verizon documents that non-Verizon routers cannot access every Fios TV Home app function and that some multi-router arrangements can block streaming or automatic pairing."
+    },
+    {
+      "sourceId": "netgear-multigig-ports",
+      "title": "What Are Multi-Gig Ethernet and 2.5G Multi-Gig Ethernet Ports?",
+      "publisher": "NETGEAR Support",
+      "url": "https://kb.netgear.com/en_US/000059677/",
+      "publishedOrUpdated": "2025-07-07",
+      "retrieved": "2026-09-14",
+      "nextReview": "2027-03-14",
+      "evidenceNote": "NETGEAR documents 1, 2.5, and 5 Gbps multi-gig rates and explains that a gigabit port limits a multi-gig connection to a 1 Gbps Ethernet line rate."
+    }
+  ]
+}

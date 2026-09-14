@@ -1,0 +1,413 @@
+{
+  "schemaVersion": 1,
+  "lastVerified": "2026-09-14",
+  "providers": [
+    {
+      "providerId": "xfinity",
+      "name": "Xfinity",
+      "aliases": ["comcast", "xfinity internet"],
+      "accessTechnologies": ["cable"],
+      "officialSupportUrl": "https://www.xfinity.com/support/internet/customerowned"
+    },
+    {
+      "providerId": "att-fiber",
+      "name": "AT&T Fiber",
+      "aliases": ["att", "at&t", "at&t fiber"],
+      "accessTechnologies": ["fiber"],
+      "officialSupportUrl": "https://www.att.com/support/article-modal/u-verse-high-speed-internet/KM1011652/"
+    },
+    {
+      "providerId": "tmobile-home-internet",
+      "name": "T-Mobile Home Internet",
+      "aliases": ["t-mobile", "tmobile", "tmhi", "t-mobile 5g home internet"],
+      "accessTechnologies": ["fixed-wireless"],
+      "officialSupportUrl": "https://www.t-mobile.com/support/home-internet/connect"
+    },
+    {
+      "providerId": "spectrum",
+      "name": "Spectrum",
+      "aliases": ["charter", "charter spectrum", "spectrum internet"],
+      "accessTechnologies": ["cable"],
+      "officialSupportUrl": "https://www.spectrum.net/support/internet/compliant-modems-spectrum-network"
+    },
+    {
+      "providerId": "cox",
+      "name": "Cox",
+      "aliases": ["cox communications", "cox internet"],
+      "accessTechnologies": ["cable"],
+      "officialSupportUrl": "https://www.cox.com/residential/support/cox-certified-cable-modems.html"
+    },
+    {
+      "providerId": "verizon-fios",
+      "name": "Verizon Fios",
+      "aliases": ["fios", "verizon fiber", "verizon fios internet"],
+      "accessTechnologies": ["fiber"],
+      "officialSupportUrl": "https://www.verizon.com/support/residential/internet/getting-started/setup-services"
+    }
+  ],
+  "rules": [
+    {
+      "ruleId": "xfinity-own-modem",
+      "providerId": "xfinity",
+      "scenario": "own-modem",
+      "status": "conditional",
+      "exactModelCheckRequired": true,
+      "summary": "Customer-owned cable modems and gateways are allowed only when Xfinity currently certifies the exact device for the address, speed tier, and selected services.",
+      "requirements": [
+        "Check the exact model in Xfinity Device Info for the service address and speed tier.",
+        "Use a device marked for Xfinity Internet and, when applicable, Xfinity Voice.",
+        "Confirm the device is not Xfinity Prepaid equipment."
+      ],
+      "lostFeatures": [
+        "Xfinity gateway-only management, security, hotspot, or automatic hardware-upgrade features may not be available."
+      ],
+      "nextAction": "Open Xfinity Device Info and verify the exact model before buying or activating it.",
+      "sourceIds": ["xfinity-approved-equipment", "xfinity-device-info"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "xfinity-own-router",
+      "providerId": "xfinity",
+      "scenario": "own-router",
+      "status": "compatible",
+      "exactModelCheckRequired": false,
+      "summary": "A customer-owned router can be used with Xfinity when the modem or gateway connection is supported and the router's ports can carry the chosen speed tier.",
+      "requirements": [
+        "Keep a compatible Xfinity modem or gateway upstream.",
+        "Check the router WAN and LAN port rates against the internet tier."
+      ],
+      "lostFeatures": [
+        "Xfinity gateway-only Wi-Fi management and security features do not move to a third-party router."
+      ],
+      "nextAction": "Check the router's WAN and LAN rates in the bottleneck finder before replacing equipment.",
+      "sourceIds": ["xfinity-approved-equipment"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "xfinity-both",
+      "providerId": "xfinity",
+      "scenario": "both",
+      "status": "conditional",
+      "exactModelCheckRequired": true,
+      "summary": "Using both a customer-owned modem and router is allowed only after the exact modem is approved for the address, tier, and services.",
+      "requirements": [
+        "Verify the modem or gateway in Xfinity Device Info.",
+        "Match the modem and router port rates to the internet tier.",
+        "Use a Voice-capable approved device when Xfinity Voice is present."
+      ],
+      "lostFeatures": [
+        "Xfinity gateway-only Wi-Fi management and security features may not be available."
+      ],
+      "nextAction": "Verify the modem first, then test the complete Ethernet path in the bottleneck finder.",
+      "sourceIds": ["xfinity-approved-equipment", "xfinity-device-info"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "att-own-modem",
+      "providerId": "att-fiber",
+      "scenario": "own-modem",
+      "status": "incompatible",
+      "exactModelCheckRequired": false,
+      "summary": "A third-party modem or gateway does not replace the AT&T-provided gateway for AT&T Fiber service.",
+      "requirements": [
+        "Keep the AT&T-provided gateway connected to the service."
+      ],
+      "lostFeatures": [],
+      "nextAction": "Keep the AT&T gateway and evaluate a customer-owned router behind it instead.",
+      "sourceIds": ["att-gateway"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "att-own-router",
+      "providerId": "att-fiber",
+      "scenario": "own-router",
+      "status": "conditional",
+      "exactModelCheckRequired": false,
+      "summary": "A customer-owned router can operate behind the required AT&T gateway; supported BGW gateways document IP Passthrough for a downstream device.",
+      "requirements": [
+        "Keep the AT&T-provided gateway in the path.",
+        "Use the gateway's documented IP Passthrough procedure when that topology is appropriate.",
+        "Check both gateway and router port rates against the internet tier."
+      ],
+      "lostFeatures": [
+        "AT&T supports its gateway; third-party router administration remains the owner's responsibility."
+      ],
+      "nextAction": "Keep the AT&T gateway, connect the router downstream, and follow the gateway-specific IP Passthrough instructions.",
+      "sourceIds": ["att-gateway", "att-ip-passthrough"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "att-both",
+      "providerId": "att-fiber",
+      "scenario": "both",
+      "status": "incompatible",
+      "exactModelCheckRequired": false,
+      "summary": "The customer-owned router may be added, but the customer-owned modem or gateway cannot replace the required AT&T gateway.",
+      "requirements": [
+        "Keep the AT&T-provided gateway and use only the customer-owned router downstream."
+      ],
+      "lostFeatures": [],
+      "nextAction": "Change the plan to customer-owned router only and retain the AT&T gateway.",
+      "sourceIds": ["att-gateway", "att-ip-passthrough"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "tmobile-own-modem",
+      "providerId": "tmobile-home-internet",
+      "scenario": "own-modem",
+      "status": "incompatible",
+      "exactModelCheckRequired": false,
+      "summary": "A third-party modem or gateway does not replace the T-Mobile Home Internet gateway.",
+      "requirements": [
+        "Keep the T-Mobile gateway connected to the service."
+      ],
+      "lostFeatures": [],
+      "nextAction": "Keep the T-Mobile gateway and evaluate a router or Wi-Fi 6 mesh system behind it.",
+      "sourceIds": ["tmobile-connect"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "tmobile-own-router",
+      "providerId": "tmobile-home-internet",
+      "scenario": "own-router",
+      "status": "conditional",
+      "exactModelCheckRequired": false,
+      "summary": "A third-party router can connect to the T-Mobile gateway by Ethernet, but the gateway does not offer bridge mode.",
+      "requirements": [
+        "Keep the T-Mobile gateway in the path.",
+        "Connect the third-party router to a gateway Ethernet port.",
+        "Account for the gateway's fixed routing behavior and unavailable bridge mode."
+      ],
+      "lostFeatures": [
+        "Bridge mode, NAT-type changes, and gateway port-forwarding controls are not available."
+      ],
+      "nextAction": "Connect the router by Ethernet and choose whether to disable the gateway Wi-Fi in the T-Life app.",
+      "sourceIds": ["tmobile-connect"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "tmobile-both",
+      "providerId": "tmobile-home-internet",
+      "scenario": "both",
+      "status": "incompatible",
+      "exactModelCheckRequired": false,
+      "summary": "A customer-owned router may be added, but a customer-owned modem or gateway cannot replace the T-Mobile gateway.",
+      "requirements": [
+        "Keep the T-Mobile gateway and use only the customer-owned router downstream."
+      ],
+      "lostFeatures": [
+        "The T-Mobile gateway does not provide bridge mode."
+      ],
+      "nextAction": "Change the plan to customer-owned router only and retain the T-Mobile gateway.",
+      "sourceIds": ["tmobile-connect"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "spectrum-own-modem",
+      "providerId": "spectrum",
+      "scenario": "own-modem",
+      "status": "conditional",
+      "exactModelCheckRequired": true,
+      "summary": "A customer-owned cable modem can be used only when Spectrum currently lists the exact model as authorized for its network and the selected service tier.",
+      "requirements": [
+        "Match the exact model against Spectrum's current authorized-modem page.",
+        "Confirm the modem supports the selected internet tier and service address.",
+        "Use separate Spectrum-provided equipment for any service that the retail modem does not support."
+      ],
+      "lostFeatures": [
+        "Spectrum-managed Wi-Fi, hardware support, and provider router features do not move to customer-owned equipment."
+      ],
+      "nextAction": "Check the exact modem on Spectrum's current authorized list immediately before purchase or activation.",
+      "sourceIds": ["spectrum-authorized-modems"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "spectrum-own-router",
+      "providerId": "spectrum",
+      "scenario": "own-router",
+      "status": "compatible",
+      "exactModelCheckRequired": false,
+      "summary": "A customer-owned router can connect to the Ethernet handoff from a Spectrum modem when its WAN and LAN ports support the intended tier.",
+      "requirements": [
+        "Keep an authorized Spectrum or customer-owned modem upstream.",
+        "Connect the router WAN port directly to the modem Ethernet port.",
+        "Check the router WAN and LAN rates against the internet tier."
+      ],
+      "lostFeatures": [
+        "Spectrum-managed Wi-Fi and provider support for the customer-owned router are not included."
+      ],
+      "nextAction": "Confirm the modem handoff, then check the router's WAN and LAN rates in the bottleneck finder.",
+      "sourceIds": ["spectrum-router-handoff", "spectrum-authorized-modems"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "spectrum-both",
+      "providerId": "spectrum",
+      "scenario": "both",
+      "status": "conditional",
+      "exactModelCheckRequired": true,
+      "summary": "A customer-owned modem and router can be used together only after Spectrum authorizes the exact modem for the current service.",
+      "requirements": [
+        "Verify the exact modem on Spectrum's current authorized list.",
+        "Confirm the modem supports the selected tier and service address.",
+        "Match both modem and router Ethernet rates to the internet tier."
+      ],
+      "lostFeatures": [
+        "Spectrum-managed Wi-Fi, hardware support, and provider router features do not move to customer-owned equipment."
+      ],
+      "nextAction": "Verify the modem first, then test the modem-to-router-to-client path.",
+      "sourceIds": ["spectrum-authorized-modems", "spectrum-router-handoff"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "cox-own-modem",
+      "providerId": "cox",
+      "scenario": "own-modem",
+      "status": "conditional",
+      "exactModelCheckRequired": true,
+      "summary": "A customer-owned cable modem can be used only when Cox currently certifies the exact model for its network and the selected speed tier.",
+      "requirements": [
+        "Match the exact model against Cox's current certified-modem list.",
+        "Confirm the model supports the selected Cox speed tier.",
+        "Confirm a used modem is no longer attached to another account."
+      ],
+      "lostFeatures": [
+        "Cox limits device support to equipment rented or purchased from Cox.",
+        "Panoramic WiFi app, Advanced Security, and provider hardware-upgrade features are not included."
+      ],
+      "nextAction": "Verify the exact modem and tier in Cox's current certified-modem list before buying or activating it.",
+      "sourceIds": ["cox-own-equipment", "cox-certified-modems"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "cox-own-router",
+      "providerId": "cox",
+      "scenario": "own-router",
+      "status": "compatible",
+      "exactModelCheckRequired": false,
+      "summary": "A separate customer-owned router can connect behind a Cox-compatible modem when its ports support the intended tier.",
+      "requirements": [
+        "Keep a Cox-compatible modem or gateway upstream.",
+        "Connect the router WAN port to the modem Ethernet handoff.",
+        "Check the router WAN and LAN rates against the internet tier."
+      ],
+      "lostFeatures": [
+        "Cox does not provide equipment support for a router obtained from another vendor.",
+        "Panoramic WiFi app and Advanced Security features are not included."
+      ],
+      "nextAction": "Confirm the modem is supported, then check the complete Ethernet path before replacing the router.",
+      "sourceIds": ["cox-own-equipment"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "cox-both",
+      "providerId": "cox",
+      "scenario": "both",
+      "status": "conditional",
+      "exactModelCheckRequired": true,
+      "summary": "A customer-owned modem and router can be used together only after Cox certifies the exact modem for the selected speed tier.",
+      "requirements": [
+        "Verify the exact modem on Cox's current certified list.",
+        "Confirm the modem supports the selected speed tier.",
+        "Match both modem and router Ethernet rates to the internet tier."
+      ],
+      "lostFeatures": [
+        "Cox support for non-Cox equipment is limited.",
+        "Panoramic WiFi app, Advanced Security, and provider hardware-upgrade features are not included."
+      ],
+      "nextAction": "Verify the modem first, then test the modem-to-router-to-client path.",
+      "sourceIds": ["cox-own-equipment", "cox-certified-modems"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "verizon-fios-own-modem",
+      "providerId": "verizon-fios",
+      "scenario": "own-modem",
+      "status": "incompatible",
+      "exactModelCheckRequired": false,
+      "summary": "A retail cable or DSL modem does not replace the Verizon Optical Network Terminal that terminates Fios fiber service.",
+      "requirements": [
+        "Keep the Verizon-installed ONT connected and powered.",
+        "Use the ONT's provisioned Ethernet handoff for a customer-owned router."
+      ],
+      "lostFeatures": [],
+      "nextAction": "Keep the ONT and evaluate a customer-owned router instead of a modem.",
+      "sourceIds": ["verizon-fios-ont", "verizon-fios-install"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "verizon-fios-own-router",
+      "providerId": "verizon-fios",
+      "scenario": "own-router",
+      "status": "conditional",
+      "exactModelCheckRequired": false,
+      "summary": "A customer-owned router can use the Fios ONT's Ethernet handoff, but Verizon TV features and Verizon-managed router services can require compatible Verizon equipment.",
+      "requirements": [
+        "Confirm the ONT internet handoff is provisioned over Ethernet.",
+        "Connect the customer router WAN port to that Ethernet handoff.",
+        "Keep a compatible Fios router when the selected TV service or managed feature requires it."
+      ],
+      "lostFeatures": [
+        "Verizon-managed router, extender, parental-control, and support features may not apply to third-party equipment.",
+        "Non-Verizon routers cannot provide every Fios TV Home app or set-top-box function."
+      ],
+      "nextAction": "Confirm Ethernet handoff and TV requirements, then check the router WAN and LAN rates.",
+      "sourceIds": ["verizon-fios-ont", "verizon-fios-agreement", "verizon-fios-tv-home"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "verizon-fios-both",
+      "providerId": "verizon-fios",
+      "scenario": "both",
+      "status": "incompatible",
+      "exactModelCheckRequired": false,
+      "summary": "A customer-owned router may use the ONT Ethernet handoff, but a customer-owned modem cannot replace the Fios ONT.",
+      "requirements": [
+        "Keep the Verizon ONT and change the plan to customer-owned router only.",
+        "Confirm whether Fios TV or managed features require a compatible Fios router."
+      ],
+      "lostFeatures": [
+        "Some Fios TV and Verizon-managed router features may not work through third-party equipment."
+      ],
+      "nextAction": "Remove the modem from the proposed path and evaluate the router against the ONT Ethernet handoff.",
+      "sourceIds": ["verizon-fios-ont", "verizon-fios-agreement", "verizon-fios-tv-home"],
+      "lastVerified": "2026-09-14",
+      "nextReview": "2026-10-14",
+      "confidence": "high"
+    }
+  ]
+}

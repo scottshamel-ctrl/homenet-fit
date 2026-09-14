@@ -1,0 +1,12 @@
+{
+  "name": "homenet-fit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun scripts/build-site.ts",
+    "test": "bun test tests/",
+    "verify": "bun scripts/verify-site.ts",
+    "check": "bun test tests/ && bun scripts/build-site.ts && bun scripts/verify-site.ts",
+    "preview": "python3 -m http.server 4173 --bind 127.0.0.1 --directory site"
+  }
+}

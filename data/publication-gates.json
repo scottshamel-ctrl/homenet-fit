@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "assessed": "2026-09-14",
+  "minimumScore": 85,
+  "scope": "Three working tool pages and twelve supporting guides. Trust, category, index, and error pages remain operational noindex pages outside the acquisition-content rubric.",
+  "criteriaMaximums": {
+    "searchIntentMatch": 20,
+    "uniqueValue": 20,
+    "accuracy": 15,
+    "usefulness": 15,
+    "seoOpportunity": 10,
+    "readability": 10,
+    "internalLinking": 5,
+    "technicalQuality": 5
+  },
+  "pages": [
+    {
+      "path": "/tools/network-compatibility-planner/",
+      "kind": "tool",
+      "scores": { "searchIntentMatch": 19, "uniqueValue": 19, "accuracy": 15, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 95,
+      "decision": "pass",
+      "evidence": "Combines provider rules and path math, preserves unknown evidence, explains the limiter, and returns the cheapest useful action.",
+      "blockers": []
+    },
+    {
+      "path": "/tools/internet-plan-bottleneck-finder/",
+      "kind": "tool",
+      "scores": { "searchIntentMatch": 20, "uniqueValue": 18, "accuracy": 15, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 95,
+      "decision": "pass",
+      "evidence": "Checks every required link, distinguishes line rate from throughput, handles unknowns and ties, and avoids false Wi-Fi precision.",
+      "blockers": []
+    },
+    {
+      "path": "/tools/isp-equipment-checker/",
+      "kind": "tool",
+      "scores": { "searchIntentMatch": 20, "uniqueValue": 19, "accuracy": 15, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 96,
+      "decision": "pass",
+      "evidence": "Separates provider policy from exact-model approval across six systems and shows sources, dates, requirements, and feature loss.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/modem-router-gateway/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 18, "uniqueValue": 16, "accuracy": 14, "usefulness": 14, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 89,
+      "decision": "pass",
+      "evidence": "Defines each network role, provides a trace-the-path procedure, and connects the identification task to the planner.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/use-your-own-router/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 19, "uniqueValue": 18, "accuracy": 15, "usefulness": 14, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 93,
+      "decision": "pass",
+      "evidence": "Distinguishes replacement, downstream-router, and access-point arrangements using all six reviewed provider systems.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/approved-modem-lists/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 19, "uniqueValue": 17, "accuracy": 15, "usefulness": 14, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 92,
+      "decision": "pass",
+      "evidence": "Turns a provider list into a model, tier, service, revision, and date verification procedure without copying device catalogs.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/router-for-multigig-plan/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 19, "uniqueValue": 17, "accuracy": 14, "usefulness": 14, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 91,
+      "decision": "pass",
+      "evidence": "Maps the entire multi-gig path and explains aggregate household capacity versus one-client throughput before a purchase.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/wan-lan-port-speeds/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 19, "uniqueValue": 16, "accuracy": 15, "usefulness": 14, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 91,
+      "decision": "pass",
+      "evidence": "Explains direction, line rate, and negotiation separately and supplies a scannable rate table tied to the bottleneck tool.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/home-network-upgrade-order/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 18, "uniqueValue": 17, "accuracy": 14, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 91,
+      "decision": "pass",
+      "evidence": "Provides a dependency-ordered test sequence and prioritizes keep, configure, cable or adapter, add, then replace.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/xfinity-owned-equipment/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 20, "uniqueValue": 18, "accuracy": 15, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 95,
+      "decision": "pass",
+      "evidence": "Separates modem authorization, router compatibility, Voice, tier, feature loss, and the downstream Ethernet path.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/spectrum-owned-equipment/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 20, "uniqueValue": 18, "accuracy": 15, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 95,
+      "decision": "pass",
+      "evidence": "Separates Spectrum's exact modem authorization from the customer-router handoff, Voice unknown, and double-routing risk.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/cox-owned-equipment/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 20, "uniqueValue": 18, "accuracy": 15, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 95,
+      "decision": "pass",
+      "evidence": "Covers certification, tier, used-account status, cable-only scope, support boundaries, Voice unknown, and Panoramic feature loss.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/att-fiber-own-router/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 20, "uniqueValue": 18, "accuracy": 15, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 95,
+      "decision": "pass",
+      "evidence": "Distinguishes required gateway, access-point mode, IP Passthrough, downstream routing, port limits, and rollback.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/verizon-fios-own-router/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 20, "uniqueValue": 19, "accuracy": 15, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 96,
+      "decision": "pass",
+      "evidence": "Starts with the ONT rather than a modem, then separates Ethernet handoff, router ports, TV dependencies, and support boundaries.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/tmobile-home-internet-mesh/",
+      "kind": "guide",
+      "scores": { "searchIntentMatch": 20, "uniqueValue": 18, "accuracy": 15, "usefulness": 15, "seoOpportunity": 8, "readability": 9, "internalLinking": 5, "technicalQuality": 5 },
+      "total": 95,
+      "decision": "pass",
+      "evidence": "Explains the required gateway, Ethernet attachment, access-point choice, unavailable bridge mode, double NAT, and provider-side limits.",
+      "blockers": []
+    }
+  ]
+}
