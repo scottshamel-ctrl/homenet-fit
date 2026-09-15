@@ -154,6 +154,40 @@ export interface TopologyResult {
   errors: string[];
 }
 
+export type MeshRelationship =
+  | "one-managed-mesh"
+  | "mixed-managed-mesh"
+  | "cross-vendor-easymesh"
+  | "access-point-fallback"
+  | "unknown";
+
+export interface MeshInput {
+  mainFamily: string;
+  addedFamily: string;
+  sameSeries: "yes" | "no" | "unsure";
+  wiredBackhaul: boolean;
+}
+
+export interface MeshResult {
+  status: DecisionStatus;
+  relationship: MeshRelationship;
+  headline: string;
+  summary: string;
+  mainFamilyName: string;
+  addedFamilyName: string;
+  conditions: string[];
+  lostFeatures: string[];
+  setupPath: string[];
+  fallback: string;
+  nextAction: string;
+  warnings: string[];
+  sources: SourceRecord[];
+  lastVerified: string | null;
+  nextReview: string | null;
+  confidence: Confidence;
+  errors: string[];
+}
+
 export interface WholeNetworkInput extends IspCheckInput {
   planMbps: number;
   components: PathComponentInput[];

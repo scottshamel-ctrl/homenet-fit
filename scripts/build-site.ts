@@ -14,6 +14,7 @@ import {
 } from "../lib/render";
 import type { SourceRecord } from "../lib/contracts";
 import { listProviders } from "../lib/isp-checker";
+import { listMeshFamilies } from "../lib/mesh";
 
 const root = join(import.meta.dir, "..");
 const out = join(root, "site");
@@ -46,6 +47,12 @@ function providerOptions(): string {
     "verizon-fios": "Verizon Fios",
   };
   return `${listProviders().map((provider) => `<option value="${provider.providerId}">${labels[provider.providerId] ?? escapeHtml(provider.name)}</option>`).join("")}<option value="other">Another provider — returns unknown</option>`;
+}
+
+function meshFamilyOptions(selected: string): string {
+  return listMeshFamilies()
+    .map((family) => `<option value="${family.familyId}"${family.familyId === selected ? " selected" : ""}>${escapeHtml(family.name)}</option>`)
+    .join("");
 }
 
 function sourceCards(selected = sources): string {
@@ -93,13 +100,14 @@ const home: PageSpec = {
       </div>
     </section>
     <section>
-      <div class="section-intro"><div><span class="eyebrow">Five decisions</span><h2>Start with the answer you need.</h2></div><p>Each tool shares the same rules. No conflicting calculators.</p></div>
+      <div class="section-intro"><div><span class="eyebrow">Six decisions</span><h2>Start with the answer you need.</h2></div><p>Each tool shares the same rules. No conflicting calculators.</p></div>
       ${pageCards([
         { href: "/tools/network-compatibility-planner/", eyebrow: "Tool 1", title: "Will my setup work together?", text: "Check the full path from provider to client and get one prioritized next action.", action: "Check my network" },
         { href: "/tools/internet-plan-bottleneck-finder/", eyebrow: "Tool 2", title: "What is slowing this device down?", text: "Compare every entered port and link rate to the internet tier without fake Wi-Fi precision.", action: "Find the limiter" },
         { href: "/tools/isp-equipment-checker/", eyebrow: "Tool 3", title: "Can I use my own equipment?", text: "Check source-backed provider rules and see when an exact model still needs manual approval.", action: "Check ISP rules" },
         { href: "/tools/ethernet-link-checker/", eyebrow: "Tool 4", title: "Will this cable carry the speed?", text: "Check one run against its ports and adapters, and tell a real ceiling from a negotiation fault.", action: "Check a link" },
         { href: "/tools/router-topology-planner/", eyebrow: "Tool 5", title: "Bridge mode, AP mode, or neither?", text: "Pick the arrangement your provider supports and see which router features it costs you.", action: "Plan topology" },
+        { href: "/tools/mesh-compatibility-checker/", eyebrow: "Tool 6", title: "Can I add this mesh to that one?", text: "Check the manufacturer's own pairing rule, and get the arrangement that still works when they will not mesh.", action: "Check a pairing" },
       ])}
     </section>
     <section>
@@ -120,9 +128,9 @@ const home: PageSpec = {
 const toolsIndex: PageSpec = {
   path: "/tools/",
   title: "Home Network Tools — HomeNet Fit",
-  description: "Use five connected tools to check home-network compatibility, internet-plan bottlenecks, ISP equipment rules, Ethernet link rates, and router topology.",
+  description: "Use six connected tools to check home-network compatibility, internet-plan bottlenecks, ISP equipment rules, Ethernet link rates, router topology, and mesh pairing.",
   h1: "Home-network tools",
-  lede: "Five tools share one decision model: provider rules first, verified path capacity second, cheapest useful action last.",
+  lede: "Six tools share one decision model: provider rules first, verified path capacity second, cheapest useful action last.",
   crumbs: homeCrumb,
   updated,
   body: pageCards([
@@ -131,6 +139,7 @@ const toolsIndex: PageSpec = {
     { href: "/tools/isp-equipment-checker/", eyebrow: "Tool 3", title: "ISP Equipment Checker", text: "Check whether customer-owned equipment is supported, conditional, or requires manual verification.", action: "Check equipment" },
     { href: "/tools/ethernet-link-checker/", eyebrow: "Tool 4", title: "Ethernet Link Checker", text: "Check one cable run, both ports, and any adapter against 1, 2.5, 5, or 10 Gbps.", action: "Check a link" },
     { href: "/tools/router-topology-planner/", eyebrow: "Tool 5", title: "Router Topology Planner", text: "Choose between bridge mode, access-point mode, passthrough, or one router, and see what each costs.", action: "Plan topology" },
+    { href: "/tools/mesh-compatibility-checker/", eyebrow: "Tool 6", title: "Mesh Compatibility Checker", text: "Check whether two mesh systems form one network, and what the fallback arrangement removes.", action: "Check a pairing" },
   ], "h2"),
 };
 
@@ -354,6 +363,45 @@ const topologyPage: PageSpec = {
   `,
 };
 
+const meshPage: PageSpec = {
+  path: "/tools/mesh-compatibility-checker/",
+  title: "Mesh Wi-Fi Compatibility Checker — HomeNet Fit",
+  description: "Check whether two mesh systems or a router and a satellite can form one network, and what to do when they cannot.",
+  h1: "Can these two mesh systems work together?",
+  lede: "Mixing mesh hardware works inside a system and almost never across systems. This checks the manufacturer's own rule for the pair you have, and names the arrangement that still works when the answer is no.",
+  crumbs: toolCrumb,
+  modules: ["/assets/mesh-ui.js"],
+  updated,
+  body: `
+    <div class="tool-shell">
+      <form class="panel tool-form" id="mesh-form" novalidate>
+        <fieldset><legend>The two systems</legend>
+          <div class="field"><label for="mesh-main">System running the network now</label><select id="mesh-main">${meshFamilyOptions("eero")}</select></div>
+          <div class="field"><label for="mesh-added">System you want to add</label><select id="mesh-added">${meshFamilyOptions("tp-link-deco")}</select></div>
+          <div class="field" id="series-field" hidden><label for="mesh-series">Are both units from the same series?</label><select id="mesh-series"><option value="unsure" selected>I have not checked the model numbers</option><option value="yes">Yes, the series matches</option><option value="no">No, the series differs</option></select><small>Read the model number from the label on the base of each unit.</small></div>
+        </fieldset>
+        <fieldset><legend>How they would connect</legend>
+          <label class="check-row"><input id="mesh-wired" type="checkbox">I can run Ethernet between the two locations</label>
+        </fieldset>
+        <div class="form-actions"><button type="submit">Check the pairing</button><button type="reset" class="secondary">Reset</button></div>
+      </form>
+      <section class="panel tool-result" id="mesh-result" aria-live="polite" aria-label="Mesh compatibility result"><div class="result-empty"><div><span class="empty-icon">◎</span><strong>One mesh, or two networks and one router.</strong><p>The result names the arrangement, the setup order, and what a mismatch costs.</p></div></div></section>
+    </div>
+    <article class="prose">
+      <h2>Why brand almost always decides this</h2><p>A mesh system is not a standard. Each manufacturer built its own way for nodes to find each other, share a backhaul, pass a client between units, and report status to one app. Those mechanisms are not interoperable, so an eero and a Deco placed in the same house remain two separate networks no matter what you name the Wi-Fi. The exception is Wi-Fi CERTIFIED EasyMesh, which exists specifically to let multi-AP devices from different vendors run as one network, and only applies when both devices actually carry that certification.</p>
+      <h2>Same brand is not the same as same system</h2><p>This is where most money gets wasted. Netgear sells Orbi satellites per series, and each satellite lists a matching series router under system requirements. Google's Nest Wifi Pro does not mesh with earlier Nest Wifi or Google Wifi units. TP-Link's Deco systems and its OneMesh routers are separate mechanisms. In each case both products carry a familiar brand, both say mesh on the box, and neither pairs with the other. Read the model number, not the logo.</p>
+      <h2>The arrangement that always works</h2><p>When two systems cannot form one mesh, you still have a usable network: pick one system to own routing and connect it to the modem, gateway, or ONT, then set the other to access-point mode so only one device routes. You get coverage without double NAT. What you do not get is seamless roaming — a device leaving one network reconnects to the other, so a call can drop at the boundary — and the access point's own guest network, parental controls, and VPN service stop applying. Give the two networks different names so you can tell which one a device is on.</p>
+      <h2>Wire it if you can</h2><p>Every mesh works better with a wired backhaul. Without a cable, the link between units shares airtime with the clients those units are meant to serve, and an older unit sitting between the main router and a weak room becomes the ceiling for everything behind it. If an Ethernet run is possible, that single cable usually does more than upgraded hardware.</p>
+      <div class="callout"><p><strong>Firmware changes these answers.</strong> Manufacturers add and drop mesh support between releases. Confirm the exact model numbers on the manufacturer's current page before buying a second unit.</p></div>
+    </article>
+    ${related([
+      { href: "/guides/mixing-mesh-brands/", title: "Mixing mesh brands", text: "What actually happens when two systems share a house." },
+      { href: "/guides/bridge-mode-vs-ap-mode/", title: "Bridge mode vs. access-point mode", text: "The fallback arrangement, and what it removes." },
+      { href: "/tools/router-topology-planner/", title: "Router Topology Planner", text: "Decide which device owns routing before you wire them together." },
+    ])}
+  `,
+};
+
 const categoryPages: PageSpec[] = [
   {
     path: "/compatibility/", title: "Home Network Compatibility — HomeNet Fit", description: "Check ISP equipment arrangements and the full path between provider, gateway, router, link, and client.", h1: "Compatibility", lede: "Compatibility is a relationship with conditions—not a product badge.", crumbs: homeCrumb, updated,
@@ -363,6 +411,8 @@ const categoryPages: PageSpec[] = [
       { href: "/tools/router-topology-planner/", eyebrow: "Topology", title: "Router Topology Planner", text: "Decide between bridge mode, AP mode, passthrough, or a single router.", action: "Open tool" },
       { href: "/guides/approved-modem-lists/", eyebrow: "Guide", title: "Approved modem lists", text: "Understand why provider, address, tier, and service options matter.", action: "Read guide" },
       { href: "/guides/bridge-mode-vs-ap-mode/", eyebrow: "Guide", title: "Bridge mode vs. AP mode", text: "Same goal, different cost. Compare what each mode removes.", action: "Read guide" },
+      { href: "/tools/mesh-compatibility-checker/", eyebrow: "Mesh", title: "Mesh Compatibility Checker", text: "Check whether two mesh systems can form one network.", action: "Open tool" },
+      { href: "/guides/mixing-mesh-brands/", eyebrow: "Guide", title: "Mixing mesh brands", text: "Why same-brand pairs still fail, and what works instead.", action: "Read guide" },
     ], "h2"),
   },
   {
@@ -532,6 +582,15 @@ const guides: Guide[] = [
     sourceIds: ["netgear-router-ap-mode", "xfinity-bridge-mode", "netgear-double-nat"],
     body: `<h2>Direct answer</h2><p>Bridge mode is a setting on the <strong>ISP gateway</strong>: it stops routing and hands the connection to your router, which keeps every feature. Access-point mode is a setting on <strong>your router</strong>: it stops routing and provides Wi-Fi and switching only, while the gateway stays in charge. Both leave one routing device. The difference is which device it is, and therefore which features survive.</p><h2>Which device you are configuring</h2><table><thead><tr><th>Question</th><th>Bridge mode</th><th>Access-point mode</th></tr></thead><tbody><tr><td data-label="Question">Setting lives on</td><td data-label="Bridge mode">The ISP gateway</td><td data-label="Access-point mode">Your own router</td></tr><tr><td data-label="Question">Device that routes</td><td data-label="Bridge mode">Your router</td><td data-label="Access-point mode">The ISP gateway</td></tr><tr><td data-label="Question">Your router's features</td><td data-label="Bridge mode">All retained</td><td data-label="Access-point mode">Guest network, site blocking, VPN service, and remote management stop working</td></tr><tr><td data-label="Question">Port forwarding configured on</td><td data-label="Bridge mode">Your router</td><td data-label="Access-point mode">The ISP gateway</td></tr><tr><td data-label="Question">Available when</td><td data-label="Bridge mode">The provider documents the setting</td><td data-label="Access-point mode">Always, because it is your hardware</td></tr></tbody></table><h2>Prefer bridge mode when it exists</h2><p>If you bought the router for its features, bridge mode is the arrangement that lets you use them. Xfinity, for example, publishes a bridge-mode procedure for using a customer-owned router with its wireless gateway. Vendor guidance follows the same order: bridge the ISP gateway and keep the retail router in router mode, then fall back to access-point mode with the gateway's Wi-Fi turned off when bridge mode is unavailable.</p><h2>Access-point mode is not a downgrade if you bought for coverage</h2><p>The features AP mode removes are only a loss if you were using them. If the mesh system went in to cover a back bedroom and the gateway's parental controls are fine, AP mode is the simpler arrangement and costs you nothing. Decide on the feature list you actually use, not on which mode sounds more advanced.</p><h2>Practical cautions</h2><ul><li><strong>Turn off the gateway's Wi-Fi</strong> in an AP-mode setup, or two networks compete for the same airtime and clients attach to the wrong one.</li><li><strong>Bridge mode usually disables the gateway's Wi-Fi and LAN services.</strong> Have your own router configured and ready before you flip it, or you will be offline mid-change.</li><li><strong>Provider voice and TV can depend on the gateway routing.</strong> Confirm that path first. This is the most common way a working phone line quietly dies.</li><li><strong>Write down the current cabling.</strong> A photograph of the back of both devices is enough to restore it.</li><li><strong>Menus differ by model.</strong> Use the instructions for your exact gateway and router, not for a similarly named one.</li></ul><h2>If neither is available</h2><p>Some required gateways offer neither bridge mode nor passthrough. The real options are then access-point mode, or accepting double NAT and forwarding ports on the gateway instead. Both are legitimate. Neither requires new hardware.</p><div class="callout"><p><strong>Next step:</strong> the <a href="/tools/router-topology-planner/">topology planner</a> uses your provider's reviewed gateway record to say which mode is documented for you, and lists what the recommended arrangement takes away.</p></div>`,
   },
+  {
+    slug: "mixing-mesh-brands",
+    title: "Can You Mix Mesh Wi-Fi Brands? What Actually Happens",
+    seoTitle: "Can You Mix Mesh Brands? — HomeNet Fit",
+    description: "Find out whether eero, Orbi, Deco, Nest Wifi, and AiMesh units can be mixed, why same-brand pairs still fail, and the arrangement that works when they cannot.",
+    lede: "Two mesh systems in one house is usually two networks. That is fine, as long as you set it up on purpose.",
+    sourceIds: ["eero-mixing-models", "netgear-orbi-satellite-series", "tplink-deco-mixing", "tplink-mesh-interop", "asus-aimesh", "google-nest-wifi-pro-mesh", "wifi-alliance-easymesh", "netgear-router-ap-mode"],
+    body: `<h2>Direct answer</h2><p>You cannot join an eero to an Orbi, a Deco to a Nest Wifi, or any two unrelated mesh systems into one managed network. Mesh is not a standard — each manufacturer wrote its own method for nodes to find each other, share a backhaul, hand a client from one unit to the next, and report status to a single app. The one real exception is Wi-Fi CERTIFIED EasyMesh, which exists specifically so multi-AP devices from different vendors can run as one network, and it only applies when both devices actually carry that certification rather than merely using the word mesh in their marketing.</p><h2>Mixing inside one system usually works</h2><p>The rule is per system, not per brand. eero states that its units work together across generations and that the network inherits the capabilities of the eero acting as the gateway. TP-Link publishes a Deco compatibility guide for mixing Deco models, with features drawn from the main unit. ASUS AiMesh works across supported routers, but the support is per model on a published list rather than across the whole product line.</p><h2>The same-brand traps that cost money</h2><table><thead><tr><th>Pair</th><th>What people assume</th><th>What the manufacturer says</th></tr></thead><tbody><tr><td data-label="Pair">Orbi satellite + Orbi router of another series</td><td data-label="What people assume">Any Orbi satellite joins any Orbi router</td><td data-label="What the manufacturer says">Each add-on satellite lists a matching series router under system requirements</td></tr><tr><td data-label="Pair">Nest Wifi Pro + Nest Wifi or Google Wifi</td><td data-label="What people assume">All Google mesh units are one family</td><td data-label="What the manufacturer says">Nest Wifi Pro does not mesh with the earlier Wi-Fi 5 devices</td></tr><tr><td data-label="Pair">TP-Link Deco + TP-Link OneMesh router</td><td data-label="What people assume">Same brand, same mesh</td><td data-label="What the manufacturer says">Deco and OneMesh are separate mechanisms that do not interoperate</td></tr><tr><td data-label="Pair">Two AiMesh-capable ASUS routers</td><td data-label="What people assume">AiMesh works across the ASUS range</td><td data-label="What the manufacturer says">Support is per model, on ASUS's published compatibility list</td></tr></tbody></table><h2>What you get instead</h2><p>When the pairing is not supported, you still have a working arrangement: choose one system to own routing and connect only that one to the modem, gateway, or ONT, then put the second system into access-point or bridge mode. One device routes, so there is no second NAT layer, and the second system adds Wi-Fi and switch ports where you need them.</p><p>Be honest about the two costs. There is no seamless roaming between them — a device leaving one network disconnects and reconnects to the other, which a video call will notice. And a system in access-point mode loses its own guest network, parental controls, VPN service, and remote management, because those are routing features. Give the two networks different Wi-Fi names; sharing one name across unrelated systems does not create roaming, it creates two networks with the same label and devices that cling to the wrong one.</p><h2>Cable between them if you can</h2><p>A wired backhaul helps every arrangement here, mixed or not. Without a cable, the link between units competes for airtime with the clients those units are supposed to serve, and an older unit sitting between the main router and a weak room sets the ceiling for everything behind it. One Ethernet run frequently does more for coverage than a hardware upgrade would.</p><h2>Before you buy the second unit</h2><ol><li>Read the model number from the label on the base of the unit you already own.</li><li>Open the manufacturer's page for the unit you are considering and find the system-requirements or compatibility list.</li><li>Confirm that your exact model appears there — not the brand, not the product line.</li><li>If it does not appear, plan on access-point mode or buy the unit sold for your system.</li><li>Keep the receipt. Mesh support changes with firmware releases in both directions.</li></ol><div class="callout"><p><strong>Next step:</strong> the <a href="/tools/mesh-compatibility-checker/">mesh compatibility checker</a> applies each manufacturer's reviewed rule to the pair you have, and gives you the setup order for whichever arrangement is possible.</p></div>`,
+  },
 ];
 
 const guidesIndex: PageSpec = {
@@ -579,7 +638,7 @@ const trustPages: PageSpec[] = [
   },
   {
     path: "/changelog/", title: "Changelog — HomeNet Fit", description: "See dated HomeNet Fit changes covering tools, provider rules, source coverage, privacy behavior, index controls, and material decision logic.", h1: "Changelog", lede: "Material rule and tool changes stay visible.", crumbs: homeCrumb, updated,
-    body: `<article class="prose"><h2>September 14, 2026</h2><ul><li>Created the local static foundation.</li><li>Added Tools 1–3 with shared deterministic logic.</li><li>Expanded coverage to Xfinity, Spectrum, Cox cable, AT&amp;T Fiber, Verizon Fios, and T-Mobile Home Internet.</li><li>Expanded the guide library from six to sixteen substantive pages.</li><li>Added the Ethernet link checker and router topology planner, bringing the tool count to five.</li><li>Added IEEE 802.3 cabling objectives and vendor bridge-mode, AP-mode, and double-NAT records to the source set.</li><li>Recorded passing 85/100 publication gates for all five tools and sixteen guides.</li><li>Kept all pages noindex pending separate deployment and publication review.</li></ul></article>`,
+    body: `<article class="prose"><h2>September 14, 2026</h2><ul><li>Created the local static foundation.</li><li>Added Tools 1–3 with shared deterministic logic.</li><li>Expanded coverage to Xfinity, Spectrum, Cox cable, AT&amp;T Fiber, Verizon Fios, and T-Mobile Home Internet.</li><li>Expanded the guide library from six to sixteen substantive pages.</li><li>Added the Ethernet link checker and router topology planner, bringing the tool count to five.</li><li>Added the mesh compatibility checker and its mixing-mesh-brands guide, bringing the tool count to six.</li><li>Added IEEE 802.3 cabling objectives and vendor bridge-mode, AP-mode, and double-NAT records to the source set.</li><li>Added manufacturer mesh-pairing records from eero, NETGEAR, TP-Link, ASUS, Google, and the Wi-Fi Alliance.</li><li>Recorded passing 85/100 publication gates for all six tools and seventeen guides.</li><li>Kept all pages noindex pending separate deployment and publication review.</li></ul></article>`,
   },
   {
     path: "/privacy/", title: "Privacy — HomeNet Fit", description: "Read what the local HomeNet Fit tools process, which sensitive network details they never request, and what must change before public analytics or ads.", h1: "Privacy", lede: "The current tools run entirely in the browser and do not send entered network details to a server.", crumbs: homeCrumb, updated,
@@ -608,7 +667,7 @@ const notFound: PageSpec = {
   body: `<div class="button-row"><a class="button" href="/">Go home</a><a class="button button-secondary" href="/tools/">Browse tools</a></div>`,
 };
 
-const TOOL_COUNT = 5;
+const TOOL_COUNT = 6;
 
 const pages: PageSpec[] = [
   home,
@@ -618,6 +677,7 @@ const pages: PageSpec[] = [
   ispPage,
   ethernetPage,
   topologyPage,
+  meshPage,
   ...categoryPages,
   guidesIndex,
   ...guidePages,
@@ -648,6 +708,7 @@ const bundle = await Bun.build({
     join(root, "src", "isp-ui.ts"),
     join(root, "src", "ethernet-ui.ts"),
     join(root, "src", "topology-ui.ts"),
+    join(root, "src", "mesh-ui.ts"),
   ],
   outdir: join(out, "assets"),
   target: "browser",

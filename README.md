@@ -9,10 +9,12 @@ Implemented:
 - ISP Modem and Own-Router Checker
 - Ethernet Cable, Port, and Adapter Link Checker
 - Router Topology Planner for bridge mode, access-point mode, and double NAT
+- Mesh-Family Compatibility Checker with an access-point fallback for unsupported pairings
 - Static, crawlable page generation with framework-free browser interactions
 - Versioned ISP rules and evidence records
-- Local-build `noindex` controls, sitemap, robots file, trust pages, and sixteen supporting guides
+- Local-build `noindex` controls, sitemap, robots file, trust pages, and seventeen supporting guides
 - Reviewed rules for Xfinity, Spectrum, Cox cable, AT&T Fiber, Verizon Fios, and T-Mobile Home Internet
+- Reviewed mesh-pairing records from eero, NETGEAR, TP-Link, ASUS, Google, and the Wi-Fi Alliance
 - Recorded 85/100 publication gates for every tool and guide page
 - Unit tests and generated-site verification
 

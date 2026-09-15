@@ -13,11 +13,13 @@ Build the source-backed HomeNet Fit static site and deterministic tools that sho
 ## Rules
 
 - `PREBUILD_PLAN.md` is the approved product and design contract.
-- Built tools: 1 (whole-network planner), 2 (bottleneck finder), 3 (ISP equipment checker), 4 (Ethernet link checker), 5 (router topology planner). Tools 6–10 remain planned.
+- Built tools, in build order: 1 (whole-network planner), 2 (bottleneck finder), 3 (ISP equipment checker), 4 (Ethernet link checker), 5 (router topology planner), 6 (mesh compatibility checker).
+- Build order is not `PREBUILD_PLAN.md` numbering. Built 4 = plan Tool 7, built 5 = plan Tool 8, built 6 = plan Tool 4. Still unbuilt: plan Tools 5 (Wi-Fi client capability), 6 (MoCA), 9 (mesh placement), 10 (upgrade priority).
 - Compatibility states are `compatible`, `conditional`, `incompatible`, or `unknown`.
 - Missing, conflicting, model-specific, or stale evidence returns `unknown`; never infer approval from a related model.
 - Tool 2 owns path-ceiling math. Tool 3 owns ISP rules. Tool 1 composes both without duplicating either.
-- Tool 4 owns single-segment cable/port/adapter rules and the negotiation-gap diagnosis. Tool 5 owns gateway topology and reuses Tool 3's provider result rather than restating it.
+- Tool 4 owns single-segment cable/port/adapter rules and the negotiation-gap diagnosis. Tool 5 owns gateway topology and reuses Tool 3's provider result rather than restating it. Tool 6 owns mesh-family pairing and always returns an access-point fallback instead of a dead end.
+- Mesh pairing is per system, not per brand. Same-vendor families that document no cross-pairing (Orbi series, Nest Wifi Pro vs. Nest Wifi, Deco vs. OneMesh) stay `incompatible`; unlisted hardware stays `unknown`.
 - Cable ceilings come from the approved IEEE 802.3 objectives: Cat5e 2.5G, Cat6 5G, Cat6a 10G to 100 m. Do not promote a distance-limited or deployment-specific case to a verified ceiling.
 - Result headers use a short status chip plus a distinct sentence; never repeat the same string in both.
 - `pageCards` takes `"h2"` when cards sit directly under the page H1, so heading order never skips a level.
@@ -35,7 +37,7 @@ bun run build
 bun run verify
 ```
 
-Then inspect desktop, 360px mobile, and effective 200% zoom renders for all five tool pages and sample guides, exercising every result state (compatible, conditional, incompatible, unknown, invalid input).
+Then inspect desktop, 360px mobile, and effective 200% zoom renders for all six tool pages and sample guides, exercising every result state (compatible, conditional, incompatible, unknown, invalid input).
 
 ## Child DOX Index
 

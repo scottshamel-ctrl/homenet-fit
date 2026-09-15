@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "assessed": "2026-09-14",
   "minimumScore": 85,
-  "scope": "Five working tool pages and sixteen supporting guides. Trust, category, index, and error pages remain operational noindex pages outside the acquisition-content rubric.",
+  "scope": "Six working tool pages and seventeen supporting guides. Trust, category, index, and error pages remain operational noindex pages outside the acquisition-content rubric.",
   "criteriaMaximums": {
     "searchIntentMatch": 20,
     "uniqueValue": 20,
@@ -390,6 +390,42 @@
       "total": 95,
       "decision": "pass",
       "evidence": "Fixes the common confusion by naming which device each setting lives on, compares retained and lost features directly, and lists the voice, TV, and rollback cautions before a mode change.",
+      "blockers": []
+    },
+    {
+      "path": "/tools/mesh-compatibility-checker/",
+      "kind": "tool",
+      "scores": {
+        "searchIntentMatch": 20,
+        "uniqueValue": 19,
+        "accuracy": 15,
+        "usefulness": 15,
+        "seoOpportunity": 9,
+        "readability": 9,
+        "internalLinking": 5,
+        "technicalQuality": 5
+      },
+      "total": 97,
+      "decision": "pass",
+      "evidence": "Answers an exact purchase question with each manufacturer's own reviewed pairing rule, separates same-brand from same-system, returns unknown for unlisted hardware, and always supplies a working access-point fallback with its named costs.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/mixing-mesh-brands/",
+      "kind": "guide",
+      "scores": {
+        "searchIntentMatch": 20,
+        "uniqueValue": 18,
+        "accuracy": 15,
+        "usefulness": 15,
+        "seoOpportunity": 9,
+        "readability": 9,
+        "internalLinking": 5,
+        "technicalQuality": 5
+      },
+      "total": 96,
+      "decision": "pass",
+      "evidence": "Leads with the direct answer, tabulates the four same-brand pairs that people assume work, states the EasyMesh exception accurately, and gives the pre-purchase model-number check rather than a brand-level rule.",
       "blockers": []
     }
   ]

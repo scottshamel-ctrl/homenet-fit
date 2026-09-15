@@ -191,6 +191,96 @@
       "retrieved": "2026-09-14",
       "nextReview": "2026-10-14",
       "evidenceNote": "Xfinity publishes a bridge-mode procedure for using a customer-owned router in combination with an Xfinity Wireless Gateway."
+    },
+    {
+      "sourceId": "eero-mixing-models",
+      "title": "Are all eeros the same?",
+      "publisher": "eero",
+      "url": "https://eero.com/support/articles/are-all-eeros-the-same",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "eero states that its current models are compatible with previously supported eero models, and that combining newer units with older-generation units on the same network may reduce performance across the network."
+    },
+    {
+      "sourceId": "eero-max-7-mixing",
+      "title": "eero Max 7",
+      "publisher": "eero",
+      "url": "https://eero.com/support/articles/eero-max-7",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "eero confirms a current-generation unit can be used with existing eeros, while recommending same-generation devices across the network for optimal performance."
+    },
+    {
+      "sourceId": "netgear-orbi-satellite-series",
+      "title": "RBS760 — Orbi 760 Series Tri-band WiFi 6 Mesh Add-on Satellite",
+      "publisher": "NETGEAR",
+      "url": "https://www.netgear.com/home/wifi/mesh/rbs760",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "NETGEAR lists the matching series router (RBR760) as a system requirement for this add-on satellite and describes it as adding coverage to an Orbi 760 Series system, which is why Orbi pairing is treated as a per-series question."
+    },
+    {
+      "sourceId": "tplink-deco-mixing",
+      "title": "Mix and Match Deco Models — Deco Compatibility Guide",
+      "publisher": "TP-Link",
+      "url": "https://www.tp-link.com/us/support/faq/2248",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "TP-Link states that different Deco models can be combined in one mesh network, that the main Deco determines which features are available network-wide, and that a feature works only when every unit supports it."
+    },
+    {
+      "sourceId": "tplink-mesh-interop",
+      "title": "TP-Link Mesh Compatibility: Deco, OneMesh, EasyMesh and Omada",
+      "publisher": "TP-Link",
+      "url": "https://www.tp-link.com/us/support/faq/3749",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "TP-Link states that its Deco, Archer OneMesh/EasyMesh, and Omada lines cannot interoperate in a single unified mesh network and that seamless roaming between them is not supported."
+    },
+    {
+      "sourceId": "asus-aimesh",
+      "title": "What is AiMesh and AiMesh Router",
+      "publisher": "ASUS",
+      "url": "https://www.asus.com/microsite/aimesh",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "ASUS states that AiMesh connects multiple compatible ASUS routers, lets different AiMesh-compatible models be mixed, and gives every device in the network access to the main router's features."
+    },
+    {
+      "sourceId": "google-nest-wifi-pro-mesh",
+      "title": "Nest Wifi Pro mesh compatibility",
+      "publisher": "Google",
+      "url": "https://support.google.com/googlenest/answer/12353201",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "Google states that Nest Wifi Pro is not backwards compatible and cannot be combined with earlier Nest Wifi or Google Wifi routers or points in a single mesh network, because those models cannot support the 6 GHz band Nest Wifi Pro meshes over."
+    },
+    {
+      "sourceId": "google-nest-wifi-mixing",
+      "title": "Use Nest Wifi and Google Wifi devices on the same network",
+      "publisher": "Google",
+      "url": "https://support.google.com/googlenest/answer/9548099",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "Google states that Nest Wifi and Google Wifi devices can be combined on one network, that a Nest Wifi point must be added after a router or Google Wifi point exists, and that Nest Wifi Pro is excluded from those combinations."
+    },
+    {
+      "sourceId": "wifi-alliance-easymesh",
+      "title": "Alternative Topologies — Wi-Fi EasyMesh",
+      "publisher": "Wi-Fi Alliance",
+      "url": "https://www.wi-fi.org/discover-wi-fi/wi-fi-easymesh",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "The Wi-Fi Alliance describes Wi-Fi EasyMesh as a standards-based multi-AP approach whose listed capabilities include scalability by enabling the addition of Wi-Fi EasyMesh access points from multiple vendors."
     }
   ]
 }

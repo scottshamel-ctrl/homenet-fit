@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "lastVerified": "2026-09-14",
+  "nextReview": "2026-12-14",
+  "families": [
+    {
+      "familyId": "eero",
+      "name": "eero (any generation)",
+      "vendor": "eero",
+      "mixPolicy": "any-model",
+      "note": "eero documents that its current models are compatible with previously released eero models, and recommends same-generation units when performance matters most.",
+      "mixNotes": [
+        "Mixing an older eero with a newer one is supported, but eero states that it can reduce performance across the whole network.",
+        "The gateway eero must reach your modem or ONT over Ethernet, so it needs an Ethernet port."
+      ],
+      "sourceIds": ["eero-mixing-models", "eero-max-7-mixing"]
+    },
+    {
+      "familyId": "netgear-orbi",
+      "name": "Netgear Orbi",
+      "vendor": "Netgear",
+      "mixPolicy": "same-series",
+      "note": "Netgear sells Orbi satellites per series and lists the matching series router as a system requirement, so a satellite belongs to the series it was sold for.",
+      "mixNotes": [
+        "Orbi model numbers carry the series: an RBS760 satellite is sold against an RBR760 router, an RBS860 against an RBR860.",
+        "Netgear publishes no cross-series pairing list, so a mismatched pair is unverified rather than confirmed."
+      ],
+      "sourceIds": ["netgear-orbi-satellite-series"]
+    },
+    {
+      "familyId": "tp-link-deco",
+      "name": "TP-Link Deco",
+      "vendor": "TP-Link",
+      "mixPolicy": "any-model",
+      "note": "TP-Link states that different Deco models can be combined in one mesh network, with the main Deco determining which features the whole network offers.",
+      "mixNotes": [
+        "The main Deco decides the feature set. Pairing a newer main unit with older satellites changes which app features appear.",
+        "A feature only works network-wide when every unit supports it; unsupported satellites drop it for the network.",
+        "TP-Link recommends a maximum of six units for most Deco models."
+      ],
+      "sourceIds": ["tplink-deco-mixing", "tplink-mesh-interop"]
+    },
+    {
+      "familyId": "tp-link-onemesh",
+      "name": "TP-Link Archer with OneMesh or EasyMesh",
+      "vendor": "TP-Link",
+      "mixPolicy": "any-model",
+      "note": "TP-Link's Archer OneMesh and EasyMesh line is a separate mesh system from Deco and from Omada, and TP-Link states the three cannot form one unified mesh network.",
+      "mixNotes": [
+        "OneMesh and EasyMesh units pair with a compatible Archer router, not with Deco units.",
+        "Seamless roaming between a Deco network and a OneMesh network is not supported, even though both are TP-Link."
+      ],
+      "sourceIds": ["tplink-mesh-interop"]
+    },
+    {
+      "familyId": "asus-aimesh",
+      "name": "ASUS AiMesh routers",
+      "vendor": "ASUS",
+      "mixPolicy": "any-model-on-list",
+      "note": "ASUS designs AiMesh so that different AiMesh-compatible ASUS routers can be mixed, with every node inheriting the main router's feature set.",
+      "mixNotes": [
+        "Both units must appear on the AiMesh-compatible list and be running AiMesh firmware; older models need the AiMesh firmware update first.",
+        "Features come from the main router, so the stronger router should take that role.",
+        "AiMesh compatibility is per model. Confirm each exact model before buying a second unit as a node."
+      ],
+      "sourceIds": ["asus-aimesh"]
+    },
+    {
+      "familyId": "google-nest-wifi",
+      "name": "Nest Wifi or Google Wifi (Wi-Fi 5)",
+      "vendor": "Google",
+      "mixPolicy": "any-model",
+      "note": "Google documents that Nest Wifi routers, Nest Wifi points, and Google Wifi points can be combined on one network.",
+      "mixNotes": [
+        "A Nest Wifi point has to be added after at least one Nest Wifi router or Google Wifi point is already set up.",
+        "The Google Home app supports one Wi-Fi network per home."
+      ],
+      "sourceIds": ["google-nest-wifi-mixing"]
+    },
+    {
+      "familyId": "google-nest-wifi-pro",
+      "name": "Nest Wifi Pro (Wi-Fi 6E)",
+      "vendor": "Google",
+      "mixPolicy": "any-model",
+      "note": "Google states that Nest Wifi Pro is not backwards compatible and cannot be combined with earlier Nest Wifi or Google Wifi devices in one mesh network.",
+      "mixNotes": [
+        "Additional coverage on a Nest Wifi Pro network comes from more Nest Wifi Pro routers acting as points.",
+        "Google advises against running a Nest Wifi Pro network and an older Nest Wifi or Google Wifi network in the same place, because the two can interfere."
+      ],
+      "sourceIds": ["google-nest-wifi-pro-mesh", "google-nest-wifi-mixing"]
+    },
+    {
+      "familyId": "easymesh",
+      "name": "Wi-Fi CERTIFIED EasyMesh device (any brand)",
+      "vendor": "Wi-Fi Alliance",
+      "mixPolicy": "cross-vendor",
+      "note": "Wi-Fi EasyMesh is the standards-based multi-AP program, and the Wi-Fi Alliance lists the addition of EasyMesh access points from multiple vendors as one of its capabilities.",
+      "mixNotes": [
+        "Both devices have to be Wi-Fi CERTIFIED EasyMesh, not merely described as mesh-capable in marketing copy.",
+        "EasyMesh standardises the multi-AP behaviour, not each vendor's app, parental controls, or security add-ons."
+      ],
+      "sourceIds": ["wifi-alliance-easymesh"]
+    },
+    {
+      "familyId": "other",
+      "name": "Another brand or a system not covered here",
+      "vendor": "Unlisted",
+      "mixPolicy": "unknown",
+      "note": "No reviewed manufacturer record exists for this system in the current data set.",
+      "mixNotes": [],
+      "sourceIds": []
+    }
+  ],
+  "documentedConflicts": [
+    {
+      "familyA": "google-nest-wifi-pro",
+      "familyB": "google-nest-wifi",
+      "reason": "Nest Wifi Pro forms its mesh over the 6 GHz band. Google states that Nest Wifi and Google Wifi hardware cannot support Wi-Fi 6E, so the two cannot be combined in one mesh network.",
+      "sourceIds": ["google-nest-wifi-pro-mesh"]
+    },
+    {
+      "familyA": "tp-link-deco",
+      "familyB": "tp-link-onemesh",
+      "reason": "TP-Link states that its Deco, Archer OneMesh and EasyMesh, and Omada lines cannot interoperate in a single unified mesh network, and that seamless roaming between them is not supported.",
+      "sourceIds": ["tplink-mesh-interop"]
+    }
+  ]
+}

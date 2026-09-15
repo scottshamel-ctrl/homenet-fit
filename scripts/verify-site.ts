@@ -42,7 +42,7 @@ function wordCount(html: string): number {
 const files = await filesBelow(site);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
 const guideDocuments: Array<{ path: string; shingles: Set<string> }> = [];
-if (htmlFiles.length !== 37) errors.push(`Expected 37 generated HTML pages, found ${htmlFiles.length}.`);
+if (htmlFiles.length !== 39) errors.push(`Expected 39 generated HTML pages, found ${htmlFiles.length}.`);
 
 for (const file of htmlFiles) {
   const html = await readFile(file, "utf8");
