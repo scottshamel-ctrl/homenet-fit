@@ -15,7 +15,7 @@ Build the source-backed HomeNet Fit static site and deterministic tools that sho
 - `PREBUILD_PLAN.md` is the approved product and design contract. Its §9 correction note supersedes the original Search Console gate.
 - Tool count is capped at six while the site is local. No seventh tool without Search Console query evidence, which requires deployment.
 - The §19 launch floor is met: six tools and twenty supporting guides. Further guides are also gated on query evidence; do not keep adding pages to hit a bigger number.
-- Every guide body must link out to at least two internal destinations, per §12. Seventeen of the twenty currently link out once, in the closing callout only; adding a second contextual link to those seventeen is open work.
+- Every guide body must link out to at least two distinct internal destinations, per §12, with at least one link in the prose rather than the closing callout. All twenty comply; `verify-site.ts` enforces both conditions.
 - Report plan-conflict resolutions when they are made, not when asked. Deciding is in scope; deciding silently is not.
 - Built tools, in build order: 1 (whole-network planner), 2 (bottleneck finder), 3 (ISP equipment checker), 4 (Ethernet link checker), 5 (router topology planner), 6 (mesh compatibility checker).
 - Build order is not `PREBUILD_PLAN.md` numbering. Built 4 = plan Tool 7, built 5 = plan Tool 8, built 6 = plan Tool 4. Still unbuilt: plan Tools 5 (Wi-Fi client capability), 6 (MoCA), 9 (mesh placement), 10 (upgrade priority).

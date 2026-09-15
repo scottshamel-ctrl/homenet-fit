@@ -60,7 +60,12 @@ for (const file of htmlFiles) {
   if (relative.startsWith("guides/") && relative !== "guides/index.html") {
     if (wordCount(html) < 250) errors.push(`${relative} has fewer than 250 words in main content.`);
     if (!html.includes("Official sources reviewed")) errors.push(`${relative} has no dated evidence section.`);
-    const article = (html.match(/<article class="prose">([\s\S]*?)<h2>Official sources reviewed<\/h2>/)?.[1] ?? "")
+    const prose = html.match(/<article class="prose">([\s\S]*?)<h2>Official sources reviewed<\/h2>/)?.[1] ?? "";
+    const proseLinks = [...prose.matchAll(/href="(\/[^"]*)"/g)].map((match) => match[1]);
+    const contextualLinks = [...prose.replace(/<div class="callout">[\s\S]*?<\/div>/g, "").matchAll(/href="(\/[^"]*)"/g)];
+    if (new Set(proseLinks).size < 2) errors.push(`${relative} links out to fewer than two internal destinations.`);
+    if (!contextualLinks.length) errors.push(`${relative} has no internal link outside its closing callout.`);
+    const article = prose
       .replace(/<[^>]+>/g, " ").toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/ +/g, " ").trim().split(" ");
     const shingles = new Set<string>();
     for (let index = 0; index <= article.length - 5; index += 1) shingles.add(article.slice(index, index + 5).join(" "));
@@ -150,4 +155,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Verified ${htmlFiles.length} pages, ${rulesJson.rules.length} ISP rules, ${sourceIds.size} current sources, ${gatePaths.size} publication gates, local noindex, internal links, content depth, originality, CSP compatibility, and JavaScript budgets.`);
+console.log(`Verified ${htmlFiles.length} pages, ${rulesJson.rules.length} ISP rules, ${sourceIds.size} current sources, ${gatePaths.size} publication gates, local noindex, internal links, guide out-link depth, content depth, originality, CSP compatibility, and JavaScript budgets.`);
