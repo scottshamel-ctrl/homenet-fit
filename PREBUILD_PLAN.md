@@ -286,7 +286,9 @@ Official sources already demonstrate why this layer is needed: Xfinity maintains
 
 ## 9. First 10 tools
 
-The first three tools validate the central product. Tools 4–10 stay planned until the first three pass QA and Search Console shows relevant impressions.
+The first three tools validate the central product.
+
+**Correction, 2026-09-14 (supersedes the original gate):** this section and §16 originally gated Tools 4–10 on Search Console impressions, which contradicted the §19 AdSense floor of five tools and 20 supporting pages — impressions require deployment, and deployment was never authorized. Tools 4, 5, and 6 were built under the §19 reading without that conflict being reported at the time. The reconciled rule: build to the §19 floor while local, then stop. Past six tools, no further tool ships without Search Console query evidence.
 
 ### Tool 1 — Whole-Network Compatibility and Upgrade Planner
 
@@ -690,7 +692,7 @@ Hermes operational activity stays in `data/hermes_activity.db`; visitor analytic
 - Finish 20 supporting pages if the first three tools are stable.
 - Inspect indexing and query impressions.
 - Improve pages already receiving relevant impressions before opening new clusters.
-- Build Tool 4 or 5 only when query evidence supports it.
+- Build additional tools beyond the §19 floor only when query evidence supports it. See the correction note in §9.
 - Do not apply to AdSense just because the site is online.
 
 ### Days 30–90
