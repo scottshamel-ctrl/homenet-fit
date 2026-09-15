@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "assessed": "2026-09-14",
   "minimumScore": 85,
-  "scope": "Six working tool pages and twenty supporting guides. Trust, category, index, and error pages remain operational noindex pages outside the acquisition-content rubric.",
+  "scope": "Six working tool pages and twenty supporting guides scored against the acquisition-content rubric. Trust, category, and index pages are not scored here but are indexed in production because they carry original navigational and evidence value. Only /404.html and the /contact/ placeholder stay noindex in production.",
   "criteriaMaximums": {
     "searchIntentMatch": 20,
     "uniqueValue": 20,

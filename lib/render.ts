@@ -94,7 +94,9 @@ export function layout(page: PageSpec): string {
 </head>
 <body class="${escapeHtml(page.pageClass ?? "")}">
   <a class="skip-link" href="#main">Skip to content</a>
-  <aside class="review-bar" aria-label="Build status">Local review build · Not published · No data leaves this browser</aside>
+  ${BUILD_MODE === "production"
+    ? `<aside class="review-bar" aria-label="Privacy status">Every check runs in your browser · No network details are sent to a server</aside>`
+    : `<aside class="review-bar" aria-label="Build status">Local review build · Not published · No data leaves this browser</aside>`}
   <header class="site-header">
     <div class="frame header-inner">
       <a class="wordmark" href="/" aria-label="HomeNet Fit home"><span class="wordmark-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>HomeNet <strong>Fit</strong></span></a>

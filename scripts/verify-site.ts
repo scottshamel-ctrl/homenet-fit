@@ -39,6 +39,13 @@ function wordCount(html: string): number {
   return main.replace(/<[^>]+>/g, " ").replace(/&[^;]+;/g, " ").trim().split(/\s+/).filter(Boolean).length;
 }
 
+const manifest = await Bun.file(join(site, "build-manifest.json")).json();
+const production = manifest.mode === "production";
+// Pages deliberately kept out of the index in either mode. Everything else must
+// be indexed in production, or the site ships invisible to search.
+const NOINDEX_PATHS = new Set(["/404.html", "/contact/"]);
+const indexedPaths: string[] = [];
+
 const files = await filesBelow(site);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
 const guideDocuments: Array<{ path: string; shingles: Set<string> }> = [];
@@ -54,7 +61,13 @@ for (const file of htmlFiles) {
   if (relative !== "404.html" && (title.length < 15 || title.length > 70)) errors.push(`${relative} title length is ${title.length}; expected 15–70.`);
   if (relative !== "404.html" && (description.length < 90 || description.length > 170)) errors.push(`${relative} description length is ${description.length}; expected 90–170.`);
   if (!/<link rel="canonical" href="https:\/\/homenetfit\.com\//.test(html)) errors.push(`${relative} has no canonical URL.`);
-  if (!/<meta name="robots" content="noindex, nofollow">/.test(html)) errors.push(`${relative} is not protected by local noindex.`);
+  const indexed = /<meta name="robots" content="index, follow">/.test(html);
+  const blocked = /<meta name="robots" content="noindex, nofollow">/.test(html);
+  if (!indexed && !blocked) errors.push(`${relative} has no robots meta tag.`);
+  if (indexed) indexedPaths.push(publicPath(file));
+  if (!production && indexed) errors.push(`${relative} is not protected by local noindex.`);
+  if (production && NOINDEX_PATHS.has(publicPath(file)) && !blocked) errors.push(`${relative} must stay noindex in production.`);
+  if (production && !NOINDEX_PATHS.has(publicPath(file)) && !indexed) errors.push(`${relative} is unexpectedly noindex in production.`);
   if (/\b(TODO|FIXME|lorem ipsum|coming soon)\b/i.test(html)) errors.push(`${relative} contains unfinished filler.`);
   if (/style="/.test(html)) errors.push(`${relative} contains inline style blocked by the CSP.`);
   if (relative.startsWith("guides/") && relative !== "guides/index.html") {
@@ -101,9 +114,30 @@ for (const asset of ["planner-ui.js", "bottleneck-ui.js", "isp-ui.js", "ethernet
 }
 
 const robots = await readFile(join(site, "robots.txt"), "utf8");
-if (robots.trim() !== "User-agent: *\nDisallow: /") errors.push("Local robots.txt must disallow all crawling.");
 const sitemap = await readFile(join(site, "sitemap.xml"), "utf8");
-if (sitemap.includes("<url>")) errors.push("Local sitemap must not contain indexable URLs.");
+const headers = await readFile(join(site, "_headers"), "utf8");
+const sitemapPaths = [...sitemap.matchAll(/<loc>https:\/\/homenetfit\.com([^<]*)<\/loc>/g)].map((match) => match[1]);
+const expectedIndexed = htmlFiles.length - NOINDEX_PATHS.size;
+
+if (production) {
+  if (!robots.includes("Allow: /")) errors.push("Production robots.txt must allow crawling.");
+  if (!robots.includes("Sitemap: https://homenetfit.com/sitemap.xml")) errors.push("Production robots.txt must reference the sitemap.");
+  if (headers.includes("X-Robots-Tag")) errors.push("Production _headers must not send a site-wide X-Robots-Tag.");
+  if (indexedPaths.length !== expectedIndexed) errors.push(`Expected ${expectedIndexed} indexable pages, found ${indexedPaths.length}.`);
+  if (manifest.indexablePages !== expectedIndexed) errors.push(`Manifest reports ${manifest.indexablePages} indexable pages; expected ${expectedIndexed}.`);
+  if (sitemapPaths.length !== expectedIndexed) errors.push(`Sitemap lists ${sitemapPaths.length} URLs; expected ${expectedIndexed}.`);
+  for (const path of sitemapPaths) {
+    if (NOINDEX_PATHS.has(path)) errors.push(`Sitemap lists noindex page ${path}.`);
+    if (!indexedPaths.includes(path)) errors.push(`Sitemap lists ${path}, which is not an indexable page.`);
+  }
+  for (const path of indexedPaths) {
+    if (!sitemapPaths.includes(path)) errors.push(`Indexable page ${path} is missing from the sitemap.`);
+  }
+} else {
+  if (robots.trim() !== "User-agent: *\nDisallow: /") errors.push("Local robots.txt must disallow all crawling.");
+  if (sitemap.includes("<url>")) errors.push("Local sitemap must not contain indexable URLs.");
+  if (!headers.includes("X-Robots-Tag: noindex, nofollow")) errors.push("Local _headers must send a site-wide noindex.");
+}
 
 const sourceIds = new Set(sourcesJson.sources.map((source) => source.sourceId));
 if (sourceIds.size !== sourcesJson.sources.length) errors.push("Source IDs must be unique.");
@@ -155,4 +189,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Verified ${htmlFiles.length} pages, ${rulesJson.rules.length} ISP rules, ${sourceIds.size} current sources, ${gatePaths.size} publication gates, local noindex, internal links, guide out-link depth, content depth, originality, CSP compatibility, and JavaScript budgets.`);
+console.log(`Verified ${htmlFiles.length} pages, ${rulesJson.rules.length} ISP rules, ${sourceIds.size} current sources, ${gatePaths.size} publication gates, ${production ? `${indexedPaths.length} indexable pages matched to robots/sitemap` : "local noindex"}, internal links, guide out-link depth, content depth, originality, CSP compatibility, and JavaScript budgets.`);

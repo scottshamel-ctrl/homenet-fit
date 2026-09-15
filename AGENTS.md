@@ -31,6 +31,8 @@ Build the source-backed HomeNet Fit static site and deterministic tools that sho
 - Current provider coverage is Xfinity cable, Spectrum cable, Cox cable, AT&T Fiber, Verizon Fios, and T-Mobile Home Internet.
 - Every tool and guide must have a recorded publishing score of at least 85/100 with no blocking defect.
 - Default build is local and globally `noindex`; production mode is not authorization to deploy.
+- Production indexes 40 of 42 pages. `NOINDEX_PATHS` in `build-site.ts` and `verify-site.ts` must stay in sync and currently holds `/404.html` and `/contact/`. Index `/contact/` once a real inbox exists.
+- `verify-site.ts` reads `build-manifest.json` for the mode and checks both. Run it after a production build too; a local-only pass proves nothing about what would ship.
 - No paid API calls, visitor accounts, remote scans, affiliate rankings, or precise Wi-Fi throughput promises.
 
 ## How to Verify
