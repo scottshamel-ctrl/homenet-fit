@@ -12,9 +12,10 @@ Implemented:
 - Mesh-Family Compatibility Checker with an access-point fallback for unsupported pairings
 - Static, crawlable page generation with framework-free browser interactions
 - Versioned ISP rules and evidence records
-- Local-build `noindex` controls, sitemap, robots file, trust pages, and seventeen supporting guides
+- Local-build `noindex` controls, sitemap, robots file, trust pages, and twenty supporting guides
 - Reviewed rules for Xfinity, Spectrum, Cox cable, AT&T Fiber, Verizon Fios, and T-Mobile Home Internet
 - Reviewed mesh-pairing records from eero, NETGEAR, TP-Link, ASUS, Google, and the Wi-Fi Alliance
+- Reviewed Wi-Fi generation, Windows/Intel 6 GHz prerequisite, and USB bus-rate records for the client-side guides
 - Recorded 85/100 publication gates for every tool and guide page
 - Unit tests and generated-site verification
 

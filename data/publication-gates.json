@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "assessed": "2026-09-14",
   "minimumScore": 85,
-  "scope": "Six working tool pages and seventeen supporting guides. Trust, category, index, and error pages remain operational noindex pages outside the acquisition-content rubric.",
+  "scope": "Six working tool pages and twenty supporting guides. Trust, category, index, and error pages remain operational noindex pages outside the acquisition-content rubric.",
   "criteriaMaximums": {
     "searchIntentMatch": 20,
     "uniqueValue": 20,
@@ -426,6 +426,60 @@
       "total": 96,
       "decision": "pass",
       "evidence": "Leads with the direct answer, tabulates the four same-brand pairs that people assume work, states the EasyMesh exception accurately, and gives the pre-purchase model-number check rather than a brand-level rule.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/easymesh-vs-proprietary-mesh/",
+      "kind": "guide",
+      "scores": {
+        "searchIntentMatch": 19,
+        "uniqueValue": 18,
+        "accuracy": 15,
+        "usefulness": 14,
+        "seoOpportunity": 9,
+        "readability": 9,
+        "internalLinking": 5,
+        "technicalQuality": 5
+      },
+      "total": 94,
+      "decision": "pass",
+      "evidence": "Separates the radio generation, the security standard, and the multi-AP coordination layer into one comparison table, explains why vendors keep proprietary methods using their own published statements, gives a verifiable Product Finder check, and states the limits of what certification promises.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/mix-wifi-generations/",
+      "kind": "guide",
+      "scores": {
+        "searchIntentMatch": 19,
+        "uniqueValue": 18,
+        "accuracy": 15,
+        "usefulness": 15,
+        "seoOpportunity": 9,
+        "readability": 9,
+        "internalLinking": 5,
+        "technicalQuality": 5
+      },
+      "total": 95,
+      "decision": "pass",
+      "evidence": "Answers the interoperability question directly, tabulates five generations with bands and dates from the certifying body, supplies the full documented 6 GHz and Wi-Fi 7 prerequisite chain including OS and driver versions, and gives a one-command client capability check.",
+      "blockers": []
+    },
+    {
+      "path": "/guides/usb-dock-ethernet-limits/",
+      "kind": "guide",
+      "scores": {
+        "searchIntentMatch": 20,
+        "uniqueValue": 18,
+        "accuracy": 15,
+        "usefulness": 15,
+        "seoOpportunity": 9,
+        "readability": 9,
+        "internalLinking": 5,
+        "technicalQuality": 5
+      },
+      "total": 96,
+      "decision": "pass",
+      "evidence": "Names the lowest-common-capability rule from the specification body, tabulates signaling against typical real-world rates per USB tier, corrects the connector-shape assumption, and gives a three-step port-isolation diagnosis instead of a purchase recommendation.",
       "blockers": []
     }
   ]

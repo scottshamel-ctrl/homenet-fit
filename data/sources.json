@@ -281,6 +281,76 @@
       "retrieved": "2026-09-14",
       "nextReview": "2026-12-14",
       "evidenceNote": "The Wi-Fi Alliance describes Wi-Fi EasyMesh as a standards-based multi-AP approach whose listed capabilities include scalability by enabling the addition of Wi-Fi EasyMesh access points from multiple vendors."
+    },
+    {
+      "sourceId": "wifi-alliance-product-finder",
+      "title": "Wi-Fi CERTIFIED Product Finder",
+      "publisher": "Wi-Fi Alliance",
+      "url": "https://www.wi-fi.org/product-finder",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "The Wi-Fi Alliance publishes a searchable database of Wi-Fi CERTIFIED products, which is the authoritative way to confirm whether a specific model carries a certification such as Wi-Fi EasyMesh rather than only using the word mesh in marketing."
+    },
+    {
+      "sourceId": "wifi-alliance-generations",
+      "title": "Wi-Fi (MAC/PHY) — Generational Wi-Fi",
+      "publisher": "Wi-Fi Alliance",
+      "url": "https://www.wi-fi.org/discover-wi-fi/wi-fi-certified-7",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "The Wi-Fi Alliance dates Wi-Fi 4 to 2009, Wi-Fi 5 to 2014, Wi-Fi 6 to 2018, and Wi-Fi 7 to 2024; it states Wi-Fi 7 enhances performance in the 2.4 GHz, 5 GHz, and 6 GHz bands, that Wi-Fi 6E certification extends Wi-Fi 6 to the 6 GHz band, and that 320 MHz channels are available in the 6 GHz band."
+    },
+    {
+      "sourceId": "microsoft-wifi-windows",
+      "title": "Faster and more secure Wi-Fi in Windows",
+      "publisher": "Microsoft",
+      "url": "https://support.microsoft.com/en-us/windows/experience/connectivity-networking/faster-and-more-secure-wi-fi-in-windows",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "Microsoft states that Wi-Fi 7 is available starting with Windows 11 version 24H2, that a supporting router and adapter are both required, that `netsh wlan show drivers` reports supported radio types such as 802.11be and 802.11ax plus WPA3 support, and that roaming between a WPA2 and a WPA3 access point requires an adapter supporting cross-roaming."
+    },
+    {
+      "sourceId": "intel-6ghz-enable",
+      "title": "How to Enable 6 GHz Band Using Intel Wi-Fi 6E or Wi-Fi 7 Products",
+      "publisher": "Intel",
+      "url": "https://www.intel.com/content/www/us/en/support/articles/000059385/wireless/intel-wi-fi-6e-products.html",
+      "publishedOrUpdated": "2025-02-06",
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "Intel lists the 6 GHz prerequisites as Windows 11 with current updates, driver 22.70.0 or later for Wi-Fi 6E and 23.10.0 or later for Wi-Fi 7, a compatible 6E or 7 router, and Windows 11 24H2 for Wi-Fi 7 functionality; it also notes that some countries prohibit the 6 GHz band and that a system manufacturer may not have enabled it."
+    },
+    {
+      "sourceId": "usbif-usb32",
+      "title": "USB 3.2",
+      "publisher": "USB Implementers Forum",
+      "url": "https://www.usb.org/usb-32-0",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "USB-IF states that the USB 3.2 specification identifies three transfer rates — 20 Gbps, 10 Gbps, and 5 Gbps — and that products are backwards compatible with all existing USB products and will operate at the lowest common speed capability."
+    },
+    {
+      "sourceId": "wd-usb-speeds",
+      "title": "USB Interface Standards and Theoretical Speeds",
+      "publisher": "Western Digital",
+      "url": "https://support-en.wd.com/app/answers/detailweb/a_id/5043/~/usb-interface-standards-and-theoretical-speeds",
+      "publishedOrUpdated": "2026-02-25",
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "Western Digital's table lists USB 2.0 (Hi-Speed USB) at a 480 Mbps theoretical maximum with 240 Mbps typical real-world speed, and USB 3.2 Gen 1 at 5 Gbps theoretical with 3.2 Gbps typical, noting that real-world speed varies by connection, operating system, and file mix."
+    },
+    {
+      "sourceId": "startech-usb31000s",
+      "title": "USB31000S — USB 3.0 to Gigabit Ethernet Network Adapter datasheet",
+      "publisher": "StarTech.com",
+      "url": "https://media.startech.com/cms/pdfs/usb31000s_datasheet.pdf",
+      "publishedOrUpdated": null,
+      "retrieved": "2026-09-14",
+      "nextReview": "2026-12-14",
+      "evidenceNote": "StarTech states that its USB 3.0 gigabit adapter supports gigabit connections at full bandwidth unlike USB 2.0 adapters, that it remains backward compatible with USB 2.0/1.x systems with speed limited by the USB bus, and that USB 2.0 adapters cannot provide true gigabit speeds."
     }
   ]
 }
