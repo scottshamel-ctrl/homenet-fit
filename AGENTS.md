@@ -33,6 +33,11 @@ Build the source-backed HomeNet Fit static site and deterministic tools that sho
 - Default build is local and globally `noindex`; production mode is not authorization to deploy.
 - Production indexes 40 of 42 pages. `NOINDEX_PATHS` in `build-site.ts` and `verify-site.ts` must stay in sync and currently holds `/404.html` and `/contact/`. Index `/contact/` once a real inbox exists.
 - `verify-site.ts` reads `build-manifest.json` for the mode and checks both. Run it after a production build too; a local-only pass proves nothing about what would ship.
+- `DEPLOYMENT.md` is the prepared, unexecuted launch runbook. Nothing in it has been run.
+- `BUILD_MODE=production` is set inline by the `deploy:build` script, never as a Cloudflare dashboard variable, so production mode cannot be lost by editing dashboard state.
+- There is deliberately no `wrangler.jsonc` (it configures Functions, which this site has no) and no `_redirects` (Pages handles the extensionless/trailing-slash cases, and `_redirects` cannot express the `www` → apex rule; that is a Bulk Redirect).
+- The CSP comes from `contentSecurityPolicy()` in `lib/render.ts`. The default blocks Cloudflare's analytics beacon; `ANALYTICS=cloudflare` widens it, and `verify-site.ts` fails when the manifest setting and the header disagree either way. Add future ad or analytics hosts through that function behind a flag, never by hand-editing the header string.
+- `homenetfit.com` was unregistered on 2026-09-17. The origin is hardcoded in canonicals, sitemap, and JSON-LD; a different domain requires a rebuild with `SITE_ORIGIN`, not a DNS change.
 - No paid API calls, visitor accounts, remote scans, affiliate rankings, or precise Wi-Fi throughput promises.
 
 ## How to Verify

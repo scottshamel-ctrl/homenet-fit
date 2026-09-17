@@ -117,6 +117,13 @@ const robots = await readFile(join(site, "robots.txt"), "utf8");
 const sitemap = await readFile(join(site, "sitemap.xml"), "utf8");
 const headers = await readFile(join(site, "_headers"), "utf8");
 const sitemapPaths = [...sitemap.matchAll(/<loc>https:\/\/homenetfit\.com([^<]*)<\/loc>/g)].map((match) => match[1]);
+
+// A Cloudflare Web Analytics build whose CSP still blocks beacon.min.js reports
+// zero traffic with no error anywhere, so the header and the setting must agree.
+const beaconAllowed = headers.includes("script-src 'self' https://static.cloudflareinsights.com");
+if (manifest.analytics === "cloudflare" && !beaconAllowed) errors.push("Analytics is enabled but the CSP still blocks the analytics beacon.");
+if (manifest.analytics !== "cloudflare" && beaconAllowed) errors.push("The CSP allows the analytics beacon while analytics is disabled.");
+if (manifest.analytics === "cloudflare" && headers.includes("connect-src 'none'")) errors.push("Analytics is enabled but the CSP blocks beacon reporting.");
 const expectedIndexed = htmlFiles.length - NOINDEX_PATHS.size;
 
 if (production) {

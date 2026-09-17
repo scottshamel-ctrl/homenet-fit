@@ -2,6 +2,17 @@ export const SITE_NAME = "HomeNet Fit";
 const environment = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env ?? {};
 export const SITE_ORIGIN = environment.SITE_ORIGIN ?? "https://homenetfit.com";
 export const BUILD_MODE = environment.BUILD_MODE === "production" ? "production" : "local";
+export const ANALYTICS = environment.ANALYTICS === "cloudflare" ? "cloudflare" : "none";
+
+// Cloudflare Web Analytics loads beacon.min.js from static.cloudflareinsights.com
+// and posts to /cdn-cgi/rum on a proxied domain. The default CSP blocks both, so
+// the beacon must widen the policy here rather than by hand-editing the header.
+export function contentSecurityPolicy(): string {
+  const beacon = "https://static.cloudflareinsights.com";
+  const script = ANALYTICS === "cloudflare" ? `'self' ${beacon}` : "'self'";
+  const connect = ANALYTICS === "cloudflare" ? "'self'" : "'none'";
+  return `default-src 'self'; script-src ${script}; style-src 'self'; img-src 'self' data:; connect-src ${connect}; frame-ancestors 'none'; base-uri 'self'; form-action 'self'`;
+}
 
 export interface Crumb {
   href: string;
