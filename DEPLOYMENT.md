@@ -1,8 +1,8 @@
 # HomeNet Fit — deployment runbook
 
-Everything here is prepared but **not executed**. Deployment, domain purchase, Search
-Console setup, analytics activation, and AdSense application each remain separate
-approvals. Nothing in this file has been run.
+Step 1 (repository) is **done**. Steps 2–8 are prepared but **not executed**: Cloudflare
+Pages, domain purchase, DNS, Search Console, analytics, and AdSense each remain separate
+approvals. Nothing costs money until step 3.
 
 Verified against Cloudflare Pages documentation on 2026-09-17.
 
@@ -22,18 +22,29 @@ Every canonical URL, the sitemap, and the JSON-LD graph already hardcode that ex
 origin, so a different domain means a rebuild with `SITE_ORIGIN` set, not a DNS swap.
 Re-check availability immediately before purchase.
 
-## 1. Repository
+## 1. Repository — DONE 2026-09-19
 
-The site must get its **own** GitHub repository.
+`https://github.com/scottshamel-ctrl/homenet-fit` (**private**) holds this project at the
+repository root: 37 files, 8 commits, no `site/` (it is gitignored and Pages rebuilds it).
+A clean clone was verified to pass `bun run deploy:build` — the exact Cloudflare build
+command — producing 42 pages with 40 indexable in production mode.
 
-Do not connect `/home/workspace` to Cloudflare Pages. That repository has no remote, is
-about 2 GB, and carries unrelated Roughdraft Studio runtime data including prospect
-emails and an outbox database. Cloudflare only publishes build output, but the Git
-integration still requires pushing the whole repository to GitHub.
+`/home/workspace` was deliberately **not** connected to Pages. That repository has no
+remote, is about 2 GB, and carries unrelated Roughdraft Studio runtime data including
+prospect emails and an outbox database. Cloudflare only publishes build output, but the
+Git integration would still require pushing the whole repository to GitHub.
 
-Create `homenet-fit` under the connected account (`scottshamel-ctrl`) containing only
-`Projects/homenet-fit/` at its root. `site/` is generated, so it can be committed or
-ignored; Pages rebuilds it either way.
+`/home/workspace` stays the single source of truth. Re-sync after committing there:
+
+```bash
+cd /home/workspace
+git subtree push --prefix=Projects/homenet-fit \
+  https://github.com/scottshamel-ctrl/homenet-fit.git main
+```
+
+Subtree split rewrites each commit to contain only this subdirectory, so no unrelated
+workspace content can reach the public-facing repository. Make the repository public only
+if there is a reason to; Pages builds a private repository fine.
 
 ## 2. Cloudflare Pages project
 
